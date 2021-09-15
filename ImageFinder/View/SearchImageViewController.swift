@@ -9,6 +9,10 @@ import UIKit
 
 class SearchImageViewController: UIViewController {
 
+  // MARK: - Properties
+
+  static let cellID = "Cell"
+
   // MARK: - UI
 
   let imageSearchBar: UISearchBar = {
@@ -21,7 +25,7 @@ class SearchImageViewController: UIViewController {
   let resultCollectionView: UICollectionView = {
     let flowLayout = UICollectionViewFlowLayout()
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
-
+    flowLayout.scrollDirection = .vertical
     collectionView.translatesAutoresizingMaskIntoConstraints = false
     return collectionView
   }()
@@ -42,6 +46,9 @@ class SearchImageViewController: UIViewController {
     navigationController?.isNavigationBarHidden = true
 
     resultCollectionView.backgroundColor = .black
+    resultCollectionView.register(ResultCollectionViewCell.self, forCellWithReuseIdentifier: SearchImageViewController.cellID)
+    resultCollectionView.dataSource = self
+    resultCollectionView.delegate = self
 
     view.addSubview(imageSearchBar)
     view.addSubview(resultCollectionView)
@@ -60,3 +67,36 @@ class SearchImageViewController: UIViewController {
   }
 }
 
+  // MARK: - Extenstions
+
+extension SearchImageViewController: UICollectionViewDataSource {
+  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    return 18
+  }
+
+  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchImageViewController.cellID, for: indexPath) as? ResultCollectionViewCell else {
+      return .init()
+    }
+    cell.backgroundColor = .red
+    return cell
+  }
+}
+
+extension SearchImageViewController: UICollectionViewDelegate {
+}
+
+extension SearchImageViewController: UICollectionViewDelegateFlowLayout {
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    // view.frame.width - (20(3개의 cell 사이 공백) + 20(collectionView 양쪽 여백) + 20(collectionView와 cell 사이 여백))
+    return CGSize(width: (view.frame.width - 60) / 3, height: (view.frame.width - 60) / 3)
+  }
+
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+    return 10
+  }
+
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+    return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+  }
+}
