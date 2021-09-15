@@ -29,7 +29,7 @@ class SearchImageViewController: UIViewController {
     collectionView.translatesAutoresizingMaskIntoConstraints = false
     return collectionView
   }()
-
+  
   // MARK: - Lifecycle
 
   override func viewDidLoad() {
