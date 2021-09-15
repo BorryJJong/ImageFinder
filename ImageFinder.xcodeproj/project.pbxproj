@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,6 +13,7 @@
 		618C22F826F1BFDE001D9885 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 618C22F626F1BFDE001D9885 /* Main.storyboard */; };
 		618C22FA26F1BFDF001D9885 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 618C22F926F1BFDF001D9885 /* Assets.xcassets */; };
 		618C22FD26F1BFDF001D9885 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 618C22FB26F1BFDF001D9885 /* LaunchScreen.storyboard */; };
+		618C230926F1ECBD001D9885 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 618C230826F1ECBD001D9885 /* .swiftlint.yml */; };
 		B14ED33000E484D6488999A9 /* Pods_ImageFinder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FAE11991270C331A59607F5 /* Pods_ImageFinder.framework */; };
 /* End PBXBuildFile section */
 
@@ -26,6 +27,7 @@
 		618C22F926F1BFDF001D9885 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		618C22FC26F1BFDF001D9885 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		618C22FE26F1BFDF001D9885 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		618C230826F1ECBD001D9885 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		9FAE11991270C331A59607F5 /* Pods_ImageFinder.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ImageFinder.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACF0AF453C324B0EF7535F83 /* Pods-ImageFinder.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImageFinder.debug.xcconfig"; path = "Target Support Files/Pods-ImageFinder/Pods-ImageFinder.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -45,6 +47,7 @@
 		618C22E426F1BFDE001D9885 = {
 			isa = PBXGroup;
 			children = (
+				618C230826F1ECBD001D9885 /* .swiftlint.yml */,
 				618C22EF26F1BFDE001D9885 /* ImageFinder */,
 				618C22EE26F1BFDE001D9885 /* Products */,
 				B7B0EF15787AF4426BFD49BD /* Pods */,
@@ -104,7 +107,6 @@
 				ACF0AF453C324B0EF7535F83 /* Pods-ImageFinder.debug.xcconfig */,
 				0A0868A4088DC6B87A337AB7 /* Pods-ImageFinder.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -128,6 +130,7 @@
 				618C22EA26F1BFDE001D9885 /* Frameworks */,
 				618C22EB26F1BFDE001D9885 /* Resources */,
 				7B9C5935ED5B41BCC3D59A11 /* [CP] Embed Pods Frameworks */,
+				618C230726F1EA7B001D9885 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -175,6 +178,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				618C230926F1ECBD001D9885 /* .swiftlint.yml in Resources */,
 				618C22FD26F1BFDF001D9885 /* LaunchScreen.storyboard in Resources */,
 				618C22FA26F1BFDF001D9885 /* Assets.xcassets in Resources */,
 				618C22F826F1BFDE001D9885 /* Main.storyboard in Resources */,
@@ -184,6 +188,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		618C230726F1EA7B001D9885 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
+		};
 		7B9C5935ED5B41BCC3D59A11 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
