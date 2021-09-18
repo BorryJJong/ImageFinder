@@ -18,18 +18,17 @@ class SearchImageViewController: UIViewController {
   let imageSearchBar: UISearchBar = {
     let searchBar = UISearchBar()
     searchBar.translatesAutoresizingMaskIntoConstraints = false
-    
     return searchBar
   }()
 
   let resultCollectionView: UICollectionView = {
-    let flowLayout = UICollectionViewFlowLayout()
+    let flowLayout = UICollectionViewFlowLayout.init()
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
     flowLayout.scrollDirection = .vertical
     collectionView.translatesAutoresizingMaskIntoConstraints = false
     return collectionView
   }()
-  
+
   // MARK: - Lifecycle
 
   override func viewDidLoad() {
@@ -45,7 +44,7 @@ class SearchImageViewController: UIViewController {
     view.backgroundColor = .white
     navigationController?.isNavigationBarHidden = true
 
-    resultCollectionView.backgroundColor = .black
+    resultCollectionView.backgroundColor = .gray
     resultCollectionView.register(ResultCollectionViewCell.self, forCellWithReuseIdentifier: SearchImageViewController.cellID)
     resultCollectionView.dataSource = self
     resultCollectionView.delegate = self
@@ -71,14 +70,18 @@ class SearchImageViewController: UIViewController {
 
 extension SearchImageViewController: UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return 18
+    return 9
   }
 
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchImageViewController.cellID, for: indexPath) as? ResultCollectionViewCell else {
-      return .init()
+      return UICollectionViewCell()
     }
-    cell.backgroundColor = .red
+//    let thumbnailUrl = URL(string: "https://t1.daumcdn.net/news/202109/01/moneyweek/20210901092029403pgth.jpg")
+//    let data = try? Data(contentsOf: thumbnailUrl!)
+    cell.thumbnailView.image = UIImage(named: "jjong")
+    cell.label.text = "test test!"
+    print(cell)
     return cell
   }
 }
@@ -88,15 +91,22 @@ extension SearchImageViewController: UICollectionViewDelegate {
 
 extension SearchImageViewController: UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    // view.frame.width - (20(3개의 cell 사이 공백) + 20(collectionView 양쪽 여백) + 20(collectionView와 cell 사이 여백))
-    return CGSize(width: (view.frame.width - 60) / 3, height: (view.frame.width - 60) / 3)
+    // view.frame.width - (5(3개의 cell 사이 공백(2.5*2)) + 20(collectionView와 view.frame 간 간격(10*2)) + 5(collectionView 내부 margin))
+    return CGSize(width: (view.frame.width - 30) / 3, height: (view.frame.width - 30) / 3)
   }
 
+  // 셀 간 상하 간격
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    return 2.5
+  }
+
+  // 셀 간 좌우 간격
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-    return 10
+    return 2.5
   }
 
+  // collectionView internal margin
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-    return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+    return UIEdgeInsets(top: 2.5, left: 2.5, bottom: 2.5, right: 2.5)
   }
 }

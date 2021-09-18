@@ -76,8 +76,8 @@
 		618C22EF26F1BFDE001D9885 /* ImageFinder */ = {
 			isa = PBXGroup;
 			children = (
-				618C230E26F21BFC001D9885 /* Network */,
 				618C230626F1C0C7001D9885 /* Entity */,
+				618C230E26F21BFC001D9885 /* Network */,
 				618C230526F1C09D001D9885 /* Presenter */,
 				618C230426F1C091001D9885 /* View */,
 				618C22F026F1BFDE001D9885 /* AppDelegate.swift */,
