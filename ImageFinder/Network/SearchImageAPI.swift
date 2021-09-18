@@ -9,14 +9,14 @@ import Foundation
 import Alamofire
 
 class SearchImageAPI {
-
+  
   weak var delegate: SearchImagePresenterDelegate?
-
+  
   func doSearchImage(keyword: String) {
     let escapingString = keyword.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? ""
     let headers: HTTPHeaders = [ "Authorization": "KakaoAK 754d4ea04671ab9d7e2add279d718b0e" ]
     let URL = "https://dapi.kakao.com/v2/search/image?query=\(escapingString)"
-
+    
     Alamofire.request(
       URL,
       method: .get,

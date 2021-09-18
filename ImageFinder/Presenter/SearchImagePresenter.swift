@@ -12,9 +12,9 @@ protocol SearchImagePresenterDelegate: AnyObject {
 }
 
 class SearchImagePresenter {
-
+  
   weak var delegate: SearchImagePresenterDelegate?
-
-
-
+  
+  
+  
 }
