@@ -6,3 +6,15 @@
 //
 
 import Foundation
+
+protocol SearchImagePresenterDelegate: AnyObject {
+  func getResult(result: [Documents])
+}
+
+class SearchImagePresenter {
+
+  weak var delegate: SearchImagePresenterDelegate?
+
+
+
+}

@@ -10,23 +10,13 @@ import UIKit
 
 class ResultCollectionViewCell: UICollectionViewCell {
 
-  // MARK: Properties
-
   // MARK: - UI
 
   let thumbnailView: UIImageView = {
     let imageView = UIImageView()
     imageView.contentMode = .scaleAspectFill
     imageView.translatesAutoresizingMaskIntoConstraints = false
-//    imageView.image = UIImage(data: data!)
     return imageView
-  }()
-
-  let label: UILabel = {
-    let label = UILabel()
-    label.text = "test"
-    label.translatesAutoresizingMaskIntoConstraints = false
-    return label
   }()
 
   // MARK: - Initialization
@@ -36,7 +26,7 @@ class ResultCollectionViewCell: UICollectionViewCell {
 
     contentView.backgroundColor = .brown
     contentView.addSubview(thumbnailView)
-    contentView.addSubview(label)
+    layout()
   }
 
   required init?(coder aDecoder: NSCoder) {
@@ -44,9 +34,6 @@ class ResultCollectionViewCell: UICollectionViewCell {
   }
 
   func layout() {
-    label.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive = true
-    label.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 10).isActive = true
-
     thumbnailView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
     thumbnailView.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
     thumbnailView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true

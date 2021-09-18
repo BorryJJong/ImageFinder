@@ -7,11 +7,18 @@
 
 import UIKit
 
-class SearchImageViewController: UIViewController {
+class SearchImageViewController: UIViewController, SearchImagePresenterDelegate {
 
   // MARK: - Properties
 
   static let cellID = "Cell"
+  var resultImages: [Documents] = []
+  var thumbnail: [String]?
+  let api = SearchImageAPI()
+
+  func getResult(result: [Documents]) {
+    self.resultImages = result
+  }
 
   // MARK: - UI
 
@@ -34,6 +41,7 @@ class SearchImageViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
+    api.doSearchImage(keyword: "qukka")
     setView()
     layout()
   }
@@ -71,6 +79,7 @@ class SearchImageViewController: UIViewController {
 extension SearchImageViewController: UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return 9
+    // return resultImages?.count
   }
 
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -79,9 +88,31 @@ extension SearchImageViewController: UICollectionViewDataSource {
     }
 //    let thumbnailUrl = URL(string: "https://t1.daumcdn.net/news/202109/01/moneyweek/20210901092029403pgth.jpg")
 //    let data = try? Data(contentsOf: thumbnailUrl!)
+
+//    guard let thumbnailUrl = URL(string: resultImages[indexPath.row].thumbnailUrl), ((try? Data(contentsOf: thumbnailUrl)) != nil)
+//      else { return }
+//    if let thumbnailUrl = URL(string: resultImages[indexPath.row].thumbnailUrl ) as? String {
+//      let url = URL(string: thumbnailUrl)
+//      if let url = url {
+//
+//      }
+//    }
+
+//    guard let thumbnailData = try? Data(contentsOf: thumbnailUrl)
+
+//    if let urlString = resultImages?[indexPath.row].thumbnailUrl,
+//           let url = URL(string: urlString) {
+//      cell.thumbnailView.
+//           }
+
+//    if let thumbnailImage = UIImage(data: thumbnailData!) {
+//      cell.thumbnailView.image = thumbnailImage
+//    } else {
+//      cell.thumbnailView.image = UIImage(named: "jjong")
+//    }
+
     cell.thumbnailView.image = UIImage(named: "jjong")
-    cell.label.text = "test test!"
-    print(cell)
+
     return cell
   }
 }
