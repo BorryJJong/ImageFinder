@@ -35,17 +35,20 @@ class SearchImageViewController: UIViewController, SearchImagePresenterDelegate 
     collectionView.translatesAutoresizingMaskIntoConstraints = false
     return collectionView
   }()
-  
+
   // MARK: - Lifecycle
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    api.doSearchImage(keyword: "qukka")
+//    api.doSearchImage(keyword: "qukka")
     setView()
     layout()
   }
-  
+
+  override func viewWillAppear(_ animated: Bool) {
+    navigationController?.isNavigationBarHidden = true
+  }
   // MARK: - Layout
   
   func setView() {
@@ -118,6 +121,11 @@ extension SearchImageViewController: UICollectionViewDataSource {
 }
 
 extension SearchImageViewController: UICollectionViewDelegate {
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    let detailView = ImageDetailViewController()
+
+    self.navigationController?.pushViewController(detailView, animated: true)
+  }
 }
 
 extension SearchImageViewController: UICollectionViewDelegateFlowLayout {
