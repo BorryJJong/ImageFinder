@@ -13,18 +13,21 @@ class SearchImageViewController: UIViewController, SearchImagePresenterDelegate 
   
   static let cellID = "Cell"
   var resultImages: [Documents] = []
-  var thumbnail: [String]?
+  var thumbnail: [String] = []
   let api = SearchImageAPI()
-  
+  let presenter = SearchImagePresenter()
+
   func getResult(result: [Documents]) {
     self.resultImages = result
+    resultCollectionView.reloadData()
+    print("got!")
+    print(self.resultImages)
   }
   
   // MARK: - UI
   
-  let imageSearchBar: UISearchBar = {
-    let searchBar = UISearchBar()
-    searchBar.translatesAutoresizingMaskIntoConstraints = false
+  let imageSearchBar: UISearchController = {
+    let searchBar = UISearchController()
     return searchBar
   }()
   
@@ -40,40 +43,38 @@ class SearchImageViewController: UIViewController, SearchImagePresenterDelegate 
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
-//    api.doSearchImage(keyword: "qukka")
+//    presenter?.setViewDelegate(delegate: self)
+//    api.doSearchImage(keyword: "너무나 귀여운 아기고릴라")
     setView()
     layout()
   }
 
-  override func viewWillAppear(_ animated: Bool) {
-    navigationController?.isNavigationBarHidden = true
-  }
   // MARK: - Layout
   
   func setView() {
     view.backgroundColor = .white
-    navigationController?.isNavigationBarHidden = true
+    navigationController?.navigationBar.prefersLargeTitles = true
+    navigationItem.title = "이미지 검색"
+    navigationItem.searchController = imageSearchBar
     
     resultCollectionView.backgroundColor = .gray
     resultCollectionView.register(ResultCollectionViewCell.self, forCellWithReuseIdentifier: SearchImageViewController.cellID)
     resultCollectionView.dataSource = self
     resultCollectionView.delegate = self
     
-    view.addSubview(imageSearchBar)
     view.addSubview(resultCollectionView)
   }
   
   func layout() {
-    imageSearchBar.heightAnchor.constraint(equalToConstant: 40).isActive = true
-    imageSearchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
-    imageSearchBar.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 10).isActive = true
-    imageSearchBar.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -10).isActive = true
+//    imageSearchBar.heightAnchor.constraint(equalToConstant: 40).isActive = true
+//    imageSearchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
+//    imageSearchBar.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 10).isActive = true
+//    imageSearchBar.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -10).isActive = true
     
-    resultCollectionView.topAnchor.constraint(equalTo: imageSearchBar.bottomAnchor, constant: 20).isActive = true
-    resultCollectionView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 10).isActive = true
+    resultCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 15).isActive = true
+    resultCollectionView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
     resultCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-    resultCollectionView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -10).isActive = true
+    resultCollectionView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
   }
 }
 
@@ -81,7 +82,9 @@ class SearchImageViewController: UIViewController, SearchImagePresenterDelegate 
 
 extension SearchImageViewController: UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return 9
+    print(resultImages.count)
+    return 15
+//    return resultImages.count
     // return resultImages?.count
   }
   
@@ -89,49 +92,36 @@ extension SearchImageViewController: UICollectionViewDataSource {
     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchImageViewController.cellID, for: indexPath) as? ResultCollectionViewCell else {
       return UICollectionViewCell()
     }
-    //    let thumbnailUrl = URL(string: "https://t1.daumcdn.net/news/202109/01/moneyweek/20210901092029403pgth.jpg")
-    //    let data = try? Data(contentsOf: thumbnailUrl!)
-    
-    //    guard let thumbnailUrl = URL(string: resultImages[indexPath.row].thumbnailUrl), ((try? Data(contentsOf: thumbnailUrl)) != nil)
-    //      else { return }
-    //    if let thumbnailUrl = URL(string: resultImages[indexPath.row].thumbnailUrl ) as? String {
-    //      let url = URL(string: thumbnailUrl)
-    //      if let url = url {
-    //
-    //      }
-    //    }
-    
-    //    guard let thumbnailData = try? Data(contentsOf: thumbnailUrl)
-    
-    //    if let urlString = resultImages?[indexPath.row].thumbnailUrl,
-    //           let url = URL(string: urlString) {
-    //      cell.thumbnailView.
-    //           }
-    
-    //    if let thumbnailImage = UIImage(data: thumbnailData!) {
-    //      cell.thumbnailView.image = thumbnailImage
-    //    } else {
-    //      cell.thumbnailView.image = UIImage(named: "jjong")
-    //    }
-    
+    print(indexPath.row)
+//    let urlString = resultImages[indexPath.row].thumbnailUrl
+//
+//    if let url = URL(string: urlString) {
+//      if let data = try? Data(contentsOf: url) {
+//        let image = UIImage(data: data)
+//        cell.thumbnailView.image = image
+//        print(urlString)
+//      }
+//    }
     cell.thumbnailView.image = UIImage(named: "jjong")
-    
+    // cell.label.text = "test test!"
     return cell
   }
 }
 
 extension SearchImageViewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    let detailView = ImageDetailViewController()
+    let imageDetailView = ImageDetailViewController() 
 
-    self.navigationController?.pushViewController(detailView, animated: true)
+    imageDetailView.imageUrl = "jjong"
+    navigationController?.pushViewController(imageDetailView, animated: true)
+
   }
 }
 
 extension SearchImageViewController: UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    // view.frame.width - (5(3개의 cell 사이 공백(2.5*2)) + 20(collectionView와 view.frame 간 간격(10*2)) + 5(collectionView 내부 margin))
-    return CGSize(width: (view.frame.width - 30) / 3, height: (view.frame.width - 30) / 3)
+    // view.frame.width - (5(3개의 cell 사이 공백(2.5*2)) + 40(collectionView와 view.frame 간 간격(20*2)) + 5(collectionView 내부 margin))
+    return CGSize(width: (view.frame.width - 50) / 3, height: (view.frame.width - 50) / 3)
   }
   
   // 셀 간 상하 간격
@@ -149,3 +139,12 @@ extension SearchImageViewController: UICollectionViewDelegateFlowLayout {
     return UIEdgeInsets(top: 2.5, left: 2.5, bottom: 2.5, right: 2.5)
   }
 }
+//extension URL {
+//    /// Non-optional initializer with better fail output
+//    public init(safeString string: String) {
+//        guard let instance = URL(string: string) else {
+//            fatalError("Unconstructable URL: \(string)")
+//        }
+//        self = instance
+//    }
+//}

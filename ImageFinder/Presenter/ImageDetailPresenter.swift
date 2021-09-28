@@ -8,11 +8,9 @@
 import Foundation
 
 protocol ImageDetailDelegate: AnyObject {
-  func getSelectedImage(imageUrl: URL)
+  func changeUrlToData(imagUrl: URL)
 }
 
 class ImageDetailPresenter {
-  weak var delegate: ImageDetailDelegate?
-
-  
+  // weak var delegate: ImageDetailDelegate?
 }

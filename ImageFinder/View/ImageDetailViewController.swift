@@ -7,16 +7,13 @@
 
 import UIKit
 
-class ImageDetailViewController: UIViewController, ImageDetailDelegate {
+class ImageDetailViewController: UIViewController {
 
   // MARK: - Properties
 
-  var imageUrl: URL?
+//  weak var presenter: ImageDetailPresenter?
 
-  func getSelectedImage(imageUrl: URL) {
-    self.imageUrl = imageUrl
-  }
-
+  var imageUrl: String?
   // MARK: - UI
   
   lazy var scrollView: UIScrollView = {
@@ -24,7 +21,7 @@ class ImageDetailViewController: UIViewController, ImageDetailDelegate {
     scrollView.translatesAutoresizingMaskIntoConstraints = false
     scrollView.contentSize = imageView.bounds.size
     scrollView.backgroundColor = .yellow
-//    scrollView.showsVerticalScrollIndicator = true
+    scrollView.showsVerticalScrollIndicator = true
     return scrollView
   }()
   
@@ -33,7 +30,6 @@ class ImageDetailViewController: UIViewController, ImageDetailDelegate {
     imageView.translatesAutoresizingMaskIntoConstraints = false
     imageView.contentMode = .scaleAspectFit
     imageView.backgroundColor = .blue
-    imageView.image = UIImage(named: "jjong")
     return imageView
   }()
   
@@ -53,6 +49,7 @@ class ImageDetailViewController: UIViewController, ImageDetailDelegate {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+
     setView()
     layout()
   }
@@ -60,7 +57,9 @@ class ImageDetailViewController: UIViewController, ImageDetailDelegate {
   func setView() {
     navigationController?.isNavigationBarHidden = false
 
+    // imageView.image = UIImage(name: presentingViewController.getSelectedImage!)
     view.addSubview(scrollView)
+    imageView.image = UIImage(named: imageUrl ?? "")
     scrollView.addSubview(imageView)
     view.addSubview(imageSourceLabel)
     view.addSubview(dateLabel)

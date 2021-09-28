@@ -26,9 +26,9 @@ class SearchImageAPI {
       case .success(let result):
         do {
           let getInstanceData = try JSONDecoder().decode(APIResponse.self, from: result)
+          print("called api")
           self.delegate?.getResult(result: getInstanceData.documents)
-          print(getInstanceData)
-          print("hi")
+//          print(getInstanceData)
         } catch {
           print(error.localizedDescription)
         }
