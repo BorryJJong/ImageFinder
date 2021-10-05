@@ -8,13 +8,13 @@
 import Foundation
 
 protocol SearchImagePresenterDelegate: AnyObject {
-  func getResult(result: [Documents])
+  func presentResult(result: [Documents])
 }
 
 class SearchImagePresenter {
   weak var delegate: SearchImagePresenterDelegate?
-
-//  func setViewDelegate(delegate: SearchImageViewController) {
-//     self.delegate = delegate
-//   }
+  let api = SearchImageAPI()
+  func setViewDelegate(delegate: SearchImageViewController) {
+     self.delegate = delegate
+   }
 }

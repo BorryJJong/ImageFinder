@@ -7,23 +7,22 @@
 
 import UIKit
 
-class SearchImageViewController: UIViewController, SearchImagePresenterDelegate {
+class SearchImageViewController: UIViewController, SearchImagePresenterDelegate, UISearchControllerDelegate {
   
   // MARK: - Properties
   
   static let cellID = "Cell"
   var resultImages: [Documents] = []
   var thumbnail: [String] = []
-  let api = SearchImageAPI()
   let presenter = SearchImagePresenter()
 
-  func getResult(result: [Documents]) {
+  func presentResult(result: [Documents]) {
     self.resultImages = result
     resultCollectionView.reloadData()
     print("got!")
     print(self.resultImages)
   }
-  
+
   // MARK: - UI
   
   let imageSearchBar: UISearchController = {
@@ -36,6 +35,7 @@ class SearchImageViewController: UIViewController, SearchImagePresenterDelegate 
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
     flowLayout.scrollDirection = .vertical
     collectionView.translatesAutoresizingMaskIntoConstraints = false
+    collectionView.setStatusView(status: "beforeSearch")
     return collectionView
   }()
 
@@ -49,8 +49,7 @@ class SearchImageViewController: UIViewController, SearchImagePresenterDelegate 
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    //    presenter?.setViewDelegate(delegate: self)
-    api.doSearchImage(keyword: "qukka")
+    presenter.setViewDelegate(delegate: self)
     setView()
     layout()
   }
@@ -64,12 +63,15 @@ class SearchImageViewController: UIViewController, SearchImagePresenterDelegate 
     navigationItem.searchController = imageSearchBar
     navigationItem.hidesSearchBarWhenScrolling = false
     
-    resultCollectionView.backgroundColor = .gray
+    resultCollectionView.backgroundColor = .red
     resultCollectionView.register(ResultCollectionViewCell.self, forCellWithReuseIdentifier: SearchImageViewController.cellID)
     resultCollectionView.dataSource = self
     resultCollectionView.delegate = self
+
+    imageSearchBar.searchBar.delegate = self
     
     view.addSubview(resultCollectionView)
+    view.addSubview(searchLodingIndicator)
   }
   
   func layout() {
@@ -77,6 +79,8 @@ class SearchImageViewController: UIViewController, SearchImagePresenterDelegate 
     resultCollectionView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
     resultCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
     resultCollectionView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
+
+    searchLodingIndicator.center = view.center
   }
 }
 
@@ -90,7 +94,7 @@ extension SearchImageViewController: UICollectionViewDataSource {
     } else {
       collectionView.restore()
     }
-
+    print(resultImages.count)
     return resultImages.count
   }
   
@@ -104,13 +108,31 @@ extension SearchImageViewController: UICollectionViewDataSource {
     if let url = URL(string: urlString) {
       if let data = try? Data(contentsOf: url) {
         let image = UIImage(data: data)
+        print(data)
         cell.thumbnailView.image = image
         print(urlString)
       }
     }
-    cell.thumbnailView.image = UIImage(named: "jjong")
-    // cell.label.text = "test test!"
+//    cell.thumbnailView.image = UIImage(named: "jjong")
     return cell
+  }
+}
+
+extension SearchImageViewController: UISearchBarDelegate {
+  func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+    print("heyhey")
+    let time = DispatchTime.now() + .seconds(1)
+    let keyword = searchBar.text ?? ""
+
+    resultCollectionView.isHidden = true
+    searchLodingIndicator.startAnimating()
+
+    DispatchQueue.main.asyncAfter(deadline: time) {
+      self.searchLodingIndicator.stopAnimating()
+      self.resultCollectionView.isHidden = false
+      self.presenter.api.doSearchImage(keyword: keyword)
+      self.resultCollectionView.reloadData()
+    }
   }
 }
 
