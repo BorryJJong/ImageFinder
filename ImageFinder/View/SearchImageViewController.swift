@@ -39,12 +39,18 @@ class SearchImageViewController: UIViewController, SearchImagePresenterDelegate 
     return collectionView
   }()
 
+  let searchLodingIndicator: UIActivityIndicatorView = {
+    let activityIndicator = UIActivityIndicatorView()
+    activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+    return activityIndicator
+  }()
+
   // MARK: - Lifecycle
   
   override func viewDidLoad() {
     super.viewDidLoad()
-//    presenter?.setViewDelegate(delegate: self)
-//    api.doSearchImage(keyword: "너무나 귀여운 아기고릴라")
+    //    presenter?.setViewDelegate(delegate: self)
+    api.doSearchImage(keyword: "qukka")
     setView()
     layout()
   }
@@ -56,6 +62,7 @@ class SearchImageViewController: UIViewController, SearchImagePresenterDelegate 
     navigationController?.navigationBar.prefersLargeTitles = true
     navigationItem.title = "이미지 검색"
     navigationItem.searchController = imageSearchBar
+    navigationItem.hidesSearchBarWhenScrolling = false
     
     resultCollectionView.backgroundColor = .gray
     resultCollectionView.register(ResultCollectionViewCell.self, forCellWithReuseIdentifier: SearchImageViewController.cellID)
@@ -66,11 +73,6 @@ class SearchImageViewController: UIViewController, SearchImagePresenterDelegate 
   }
   
   func layout() {
-//    imageSearchBar.heightAnchor.constraint(equalToConstant: 40).isActive = true
-//    imageSearchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
-//    imageSearchBar.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 10).isActive = true
-//    imageSearchBar.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -10).isActive = true
-    
     resultCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 15).isActive = true
     resultCollectionView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
     resultCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
@@ -83,9 +85,13 @@ class SearchImageViewController: UIViewController, SearchImagePresenterDelegate 
 extension SearchImageViewController: UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     print(resultImages.count)
-    return 15
-//    return resultImages.count
-    // return resultImages?.count
+    if resultImages.count == 0 {
+      resultCollectionView.setStatusView(status: "noResult")
+    } else {
+      collectionView.restore()
+    }
+
+    return resultImages.count
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -93,15 +99,15 @@ extension SearchImageViewController: UICollectionViewDataSource {
       return UICollectionViewCell()
     }
     print(indexPath.row)
-//    let urlString = resultImages[indexPath.row].thumbnailUrl
-//
-//    if let url = URL(string: urlString) {
-//      if let data = try? Data(contentsOf: url) {
-//        let image = UIImage(data: data)
-//        cell.thumbnailView.image = image
-//        print(urlString)
-//      }
-//    }
+    let urlString = resultImages[indexPath.row].thumbnailUrl
+
+    if let url = URL(string: urlString) {
+      if let data = try? Data(contentsOf: url) {
+        let image = UIImage(data: data)
+        cell.thumbnailView.image = image
+        print(urlString)
+      }
+    }
     cell.thumbnailView.image = UIImage(named: "jjong")
     // cell.label.text = "test test!"
     return cell
@@ -110,7 +116,7 @@ extension SearchImageViewController: UICollectionViewDataSource {
 
 extension SearchImageViewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    let imageDetailView = ImageDetailViewController() 
+    let imageDetailView = ImageDetailViewController()
 
     imageDetailView.imageUrl = "jjong"
     navigationController?.pushViewController(imageDetailView, animated: true)
@@ -139,12 +145,51 @@ extension SearchImageViewController: UICollectionViewDelegateFlowLayout {
     return UIEdgeInsets(top: 2.5, left: 2.5, bottom: 2.5, right: 2.5)
   }
 }
-//extension URL {
-//    /// Non-optional initializer with better fail output
-//    public init(safeString string: String) {
-//        guard let instance = URL(string: string) else {
-//            fatalError("Unconstructable URL: \(string)")
-//        }
-//        self = instance
-//    }
-//}
+
+extension UICollectionView {
+  func setStatusView(status: String) {
+    let statusView: UIView = {
+      let view = UIView(frame: CGRect(x: self.center.x, y: self.center.y, width: self.bounds.width, height: self.bounds.height))
+
+      return view
+    }()
+
+    let searchStatusImageView: UIImageView = {
+      let imageView = UIImageView()
+      imageView.translatesAutoresizingMaskIntoConstraints = false
+      if status == "beforeSearch" {
+        imageView.image = UIImage(named: "search.svg")
+      } else if status == "noResult" {
+        imageView.image = UIImage(named: "noResult.svg")
+      }
+      return imageView
+    }()
+
+    let searchStatusLabel: UILabel = {
+      let label = UILabel()
+      label.translatesAutoresizingMaskIntoConstraints = false
+      label.textColor = .gray
+      if status == "beforeSearch" {
+        label.text = "검색어를 입력하세요"
+      } else if status == "noResult" {
+        label.text = "검색 결과가 없습니다"
+      }
+      return label
+    }()
+
+    statusView.addSubview(searchStatusLabel)
+    statusView.addSubview(searchStatusImageView)
+
+    searchStatusImageView.centerXAnchor.constraint(equalTo: statusView.centerXAnchor).isActive = true
+    searchStatusImageView.centerYAnchor.constraint(equalTo: statusView.centerYAnchor, constant: -40).isActive = true
+
+    searchStatusLabel.centerXAnchor.constraint(equalTo: statusView.centerXAnchor).isActive = true
+    searchStatusLabel.topAnchor.constraint(equalTo: searchStatusImageView.bottomAnchor, constant: 20).isActive = true
+
+    self.backgroundView = statusView
+  }
+
+  func restore() {
+    self.backgroundView = nil
+  }
+}
