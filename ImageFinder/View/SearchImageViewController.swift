@@ -88,7 +88,6 @@ class SearchImageViewController: UIViewController, SearchImagePresenterDelegate,
 
 extension SearchImageViewController: UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    print(resultImages.count)
     if resultImages.count == 0 {
       resultCollectionView.setStatusView(status: "noResult")
     } else {
