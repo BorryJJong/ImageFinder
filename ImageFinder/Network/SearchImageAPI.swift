@@ -8,13 +8,14 @@
 import Foundation
 import Alamofire
 
-class SearchImageAPI {
+class SearchImageAPI: SearchImageApi {
+  // let instance = SearchImageAPI()
 
   func doSearchImage(keyword: String) {
     let escapingString = keyword.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? ""
     let headers: HTTPHeaders = [ "Authorization": "KakaoAK 754d4ea04671ab9d7e2add279d718b0e" ]
     let URL = "https://dapi.kakao.com/v2/search/image?query=\(escapingString)"
-
+    
     Alamofire.request(
       URL,
       method: .get,
@@ -24,9 +25,10 @@ class SearchImageAPI {
       case .success(let result):
         do {
           let getInstanceData = try JSONDecoder().decode(APIResponse.self, from: result)
-          // self.delegate?.presentAddress(result: getInstanceData.documents)
-          print(getInstanceData)
-          print("hi")
+          print("called api")
+
+          presentResult(result: getInstanceData.documents)
+//          print(getInstanceData)
         } catch {
           print(error.localizedDescription)
         }

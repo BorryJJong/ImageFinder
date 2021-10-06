@@ -13,14 +13,14 @@ struct Documents: Codable {
   let imageWidth: Int
   let imageHeigth: Int
   let displaySiteName: String
-//  let dateTime: Date
-
+  //  let dateTime: Date
+  
   enum CodingKeys: String, CodingKey {
     case thumbnailUrl = "thumbnail_url"
     case imageUrl = "image_url"
     case imageWidth = "width"
     case imageHeigth = "height"
     case displaySiteName = "display_sitename"
-//    case dateTime = "datetime"
+    //    case dateTime = "datetime"
   }
 }
