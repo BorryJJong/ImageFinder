@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol SearchImageApi {
+  func doSearchImage(keyword: String)
+}
+
 class SearchImageViewController: UIViewController, SearchImagePresenterDelegate, UISearchControllerDelegate {
   
   // MARK: - Properties

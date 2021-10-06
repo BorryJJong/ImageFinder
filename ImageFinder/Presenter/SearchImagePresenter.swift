@@ -13,7 +13,7 @@ protocol SearchImagePresenterDelegate: AnyObject {
 
 class SearchImagePresenter {
   weak var delegate: SearchImagePresenterDelegate?
-  let api = SearchImageAPI()
+
   func setViewDelegate(delegate: SearchImageViewController) {
      self.delegate = delegate
    }

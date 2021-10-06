@@ -8,10 +8,9 @@
 import Foundation
 import Alamofire
 
-class SearchImageAPI {
-  
-  weak var delegate: SearchImagePresenterDelegate?
-  
+class SearchImageAPI: SearchImageApi {
+
+
   func doSearchImage(keyword: String) {
     let escapingString = keyword.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? ""
     let headers: HTTPHeaders = [ "Authorization": "KakaoAK 754d4ea04671ab9d7e2add279d718b0e" ]
@@ -27,7 +26,8 @@ class SearchImageAPI {
         do {
           let getInstanceData = try JSONDecoder().decode(APIResponse.self, from: result)
           print("called api")
-          self.delegate?.presentResult(result: getInstanceData.documents)
+
+          presentResult(result: getInstanceData.documents)
 //          print(getInstanceData)
         } catch {
           print(error.localizedDescription)
