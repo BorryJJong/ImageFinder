@@ -18,7 +18,7 @@ class SearchImageViewController: UIViewController, SearchImagePresenterDelegate,
   static let cellID = "Cell"
   var resultImages: [Documents] = []
   var thumbnail: [String] = []
-  let presenter = SearchImagePresenter()
+  let presenter = SearchImagePresenter(imageSearchService: <#SearchImageAPI#>)
 
   func presentResult(result: [Documents]) {
     self.resultImages = result
@@ -133,7 +133,7 @@ extension SearchImageViewController: UISearchBarDelegate {
     DispatchQueue.main.asyncAfter(deadline: time) {
       self.searchLodingIndicator.stopAnimating()
       self.resultCollectionView.isHidden = false
-      self.presenter.api.doSearchImage(keyword: keyword)
+      self.presenter.imageSearchService.doSearchImage(keyword: keyword)
       self.resultCollectionView.reloadData()
     }
   }

@@ -9,7 +9,7 @@ import Foundation
 import Alamofire
 
 class SearchImageAPI: SearchImageApi {
-
+  // let instance = SearchImageAPI()
 
   func doSearchImage(keyword: String) {
     let escapingString = keyword.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? ""
