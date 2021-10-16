@@ -9,4 +9,6 @@ import Foundation
 
 struct APIResponse: Codable {
   let documents: [Documents]
+  let meta: Meta
 }
+

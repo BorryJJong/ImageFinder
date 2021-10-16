@@ -7,18 +7,15 @@
 
 import UIKit
 
-protocol SearchImageApi {
-  func doSearchImage(keyword: String)
-}
+class SearchImageViewController: UIViewController, SearchImagePresenterDelegate {
 
-class SearchImageViewController: UIViewController, SearchImagePresenterDelegate, UISearchControllerDelegate {
-  
   // MARK: - Properties
   
   static let cellID = "Cell"
   var resultImages: [Documents] = []
   var thumbnail: [String] = []
-  let presenter = SearchImagePresenter(imageSearchService: <#SearchImageAPI#>)
+  let service = SearchImageService()
+  weak var presenter: SearchImagePresenter?
 
   func presentResult(result: [Documents]) {
     self.resultImages = result
@@ -53,7 +50,7 @@ class SearchImageViewController: UIViewController, SearchImagePresenterDelegate,
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    presenter.setViewDelegate(delegate: self)
+    presenter?.setViewDelegate(delegate: self)
     setView()
     layout()
   }
@@ -116,7 +113,6 @@ extension SearchImageViewController: UICollectionViewDataSource {
         print(urlString)
       }
     }
-//    cell.thumbnailView.image = UIImage(named: "jjong")
     return cell
   }
 }
@@ -133,7 +129,9 @@ extension SearchImageViewController: UISearchBarDelegate {
     DispatchQueue.main.asyncAfter(deadline: time) {
       self.searchLodingIndicator.stopAnimating()
       self.resultCollectionView.isHidden = false
-      self.presenter.imageSearchService.doSearchImage(keyword: keyword)
+      self.service.getSearchedImage(keyword: keyword, callback: {(resultImages) -> Void in
+        self.resultImages = resultImages.documents
+      })
       self.resultCollectionView.reloadData()
     }
   }
