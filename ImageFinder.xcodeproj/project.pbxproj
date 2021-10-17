@@ -16,7 +16,6 @@
 		618C230926F1ECBD001D9885 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 618C230826F1ECBD001D9885 /* .swiftlint.yml */; };
 		618C230B26F20F40001D9885 /* SearchImagePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C230A26F20F40001D9885 /* SearchImagePresenter.swift */; };
 		618C230D26F210CF001D9885 /* ResultCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C230C26F210CF001D9885 /* ResultCollectionViewCell.swift */; };
-		618C231026F21C27001D9885 /* SearchImageAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C230F26F21C27001D9885 /* SearchImageAPI.swift */; };
 		618C231226F21D14001D9885 /* APIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C231126F21D14001D9885 /* APIResponse.swift */; };
 		618C231426F21D29001D9885 /* Documents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C231326F21D29001D9885 /* Documents.swift */; };
 		618C231626F6250B001D9885 /* ImageDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C231526F6250B001D9885 /* ImageDetailViewController.swift */; };
@@ -39,7 +38,6 @@
 		618C230826F1ECBD001D9885 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		618C230A26F20F40001D9885 /* SearchImagePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchImagePresenter.swift; sourceTree = "<group>"; };
 		618C230C26F210CF001D9885 /* ResultCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultCollectionViewCell.swift; sourceTree = "<group>"; };
-		618C230F26F21C27001D9885 /* SearchImageAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchImageAPI.swift; sourceTree = "<group>"; };
 		618C231126F21D14001D9885 /* APIResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResponse.swift; sourceTree = "<group>"; };
 		618C231326F21D29001D9885 /* Documents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Documents.swift; sourceTree = "<group>"; };
 		618C231526F6250B001D9885 /* ImageDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDetailViewController.swift; sourceTree = "<group>"; };
@@ -86,7 +84,6 @@
 			children = (
 				61BD4EFB271453E2004E6724 /* Model */,
 				618C230626F1C0C7001D9885 /* Entity */,
-				618C230E26F21BFC001D9885 /* Network */,
 				618C230526F1C09D001D9885 /* Presenter */,
 				618C230426F1C091001D9885 /* View */,
 				618C22F026F1BFDE001D9885 /* AppDelegate.swift */,
@@ -126,14 +123,6 @@
 				61BD4F022719B6A3004E6724 /* Meta.swift */,
 			);
 			path = Entity;
-			sourceTree = "<group>";
-		};
-		618C230E26F21BFC001D9885 /* Network */ = {
-			isa = PBXGroup;
-			children = (
-				618C230F26F21C27001D9885 /* SearchImageAPI.swift */,
-			);
-			path = Network;
 			sourceTree = "<group>";
 		};
 		61BD4EFB271453E2004E6724 /* Model */ = {
@@ -298,7 +287,6 @@
 				61BD4F012719B1D1004E6724 /* SearchImageService.swift in Sources */,
 				618C22F526F1BFDE001D9885 /* SearchImageViewController.swift in Sources */,
 				618C22F126F1BFDE001D9885 /* AppDelegate.swift in Sources */,
-				618C231026F21C27001D9885 /* SearchImageAPI.swift in Sources */,
 				618C231826F6251E001D9885 /* ImageDetailPresenter.swift in Sources */,
 				618C231426F21D29001D9885 /* Documents.swift in Sources */,
 				618C230B26F20F40001D9885 /* SearchImagePresenter.swift in Sources */,

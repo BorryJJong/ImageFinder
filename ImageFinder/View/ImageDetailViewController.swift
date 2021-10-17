@@ -13,7 +13,7 @@ class ImageDetailViewController: UIViewController {
 
 //  weak var presenter: ImageDetailPresenter?
 
-  var imageUrl: String?
+  // var imageUrl: String?
   // MARK: - UI
   
   lazy var scrollView: UIScrollView = {
@@ -59,7 +59,7 @@ class ImageDetailViewController: UIViewController {
 
     // imageView.image = UIImage(name: presentingViewController.getSelectedImage!)
     view.addSubview(scrollView)
-    imageView.image = UIImage(named: imageUrl ?? "")
+    // imageView.image = UIImage(named: imageUrl ?? "")
     scrollView.addSubview(imageView)
     view.addSubview(imageSourceLabel)
     view.addSubview(dateLabel)

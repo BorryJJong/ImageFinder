@@ -11,4 +11,3 @@ struct APIResponse: Codable {
   let documents: [Documents]
   let meta: Meta
 }
-

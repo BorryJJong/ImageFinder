@@ -12,15 +12,15 @@ class SearchImageViewController: UIViewController, SearchImagePresenterDelegate 
   // MARK: - Properties
   
   static let cellID = "Cell"
-  var resultImages: [Documents] = []
-  var thumbnail: [String] = []
-  let service = SearchImageService()
-  weak var presenter: SearchImagePresenter?
+  var resultImages: [Documents] = [] {
+    didSet {
+      resultCollectionView.reloadData()
+    }
+  }
+ var presenter: SearchImagePresenter?
 
   func presentResult(result: [Documents]) {
     self.resultImages = result
-    resultCollectionView.reloadData()
-    print("got!")
     print(self.resultImages)
   }
 
@@ -50,7 +50,7 @@ class SearchImageViewController: UIViewController, SearchImagePresenterDelegate 
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    presenter?.setViewDelegate(delegate: self)
+    presenter?.delegate = self
     setView()
     layout()
   }
@@ -119,21 +119,16 @@ extension SearchImageViewController: UICollectionViewDataSource {
 
 extension SearchImageViewController: UISearchBarDelegate {
   func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-    print("heyhey")
-    let time = DispatchTime.now() + .seconds(1)
+//    let time = DispatchTime.now() + .seconds(1)
     let keyword = searchBar.text ?? ""
 
     resultCollectionView.isHidden = true
     searchLodingIndicator.startAnimating()
 
-    DispatchQueue.main.asyncAfter(deadline: time) {
-      self.searchLodingIndicator.stopAnimating()
-      self.resultCollectionView.isHidden = false
-      self.service.getSearchedImage(keyword: keyword, callback: {(resultImages) -> Void in
-        self.resultImages = resultImages.documents
-      })
-      self.resultCollectionView.reloadData()
-    }
+    self.searchLodingIndicator.stopAnimating()
+    self.resultCollectionView.isHidden = false
+    self.presenter?.setResultImage(keyword: keyword)
+
   }
 }
 
@@ -141,7 +136,16 @@ extension SearchImageViewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     let imageDetailView = ImageDetailViewController()
 
-    imageDetailView.imageUrl = "jjong"
+    let urlString = resultImages[indexPath.row].imageUrl
+
+    if let url = URL(string: urlString) {
+      if let data = try? Data(contentsOf: url) {
+        let image = UIImage(data: data)
+        print(data)
+        imageDetailView.imageView.image = image
+      }
+    }
+    //    imageDetailView.imageUrl = "jjong"
     navigationController?.pushViewController(imageDetailView, animated: true)
 
   }

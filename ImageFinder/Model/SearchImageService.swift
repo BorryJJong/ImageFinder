@@ -27,7 +27,6 @@ struct SearchImageService {
           callback(getInstanceData)
         } catch {
           print(error.localizedDescription)
-//          callback(nil)
         }
       case .failure(let error):
         print(error)
