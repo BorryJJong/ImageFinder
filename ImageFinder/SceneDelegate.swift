@@ -14,9 +14,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
     guard let windowScene = (scene as? UIWindowScene) else { return }
     window = UIWindow(windowScene: windowScene)
-
-    let rootViewController = SearchImageViewController()
-    let navigationCotroller = UINavigationController(rootViewController: rootViewController)
+    
+    let service = SearchImageService() // 메모리 주소값 생성 -> A 주소값
+    let presenter = SearchImagePresenter(searchImageService: service)
+//    let view = SearchImageViewController(presenter: presenter)
+    let view = SearchImageViewController()
+    view.presenter = presenter
+    
+    let navigationCotroller = UINavigationController(rootViewController: view)
 
     window?.rootViewController = navigationCotroller
     window?.makeKeyAndVisible()

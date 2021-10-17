@@ -9,10 +9,10 @@ import Foundation
 import Alamofire
 
 struct SearchImageService {
-  func getSearchedImage(keyword: String, callback: @escaping (APIResponse) -> Void) {
+  mutating func getSearchedImage(keyword: String, callback: @escaping (APIResponse) -> Void) {
     let escapingString = keyword.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? ""
     let headers: HTTPHeaders = [ "Authorization": "KakaoAK 754d4ea04671ab9d7e2add279d718b0e" ]
-    let URL = "https://dapi.kakao.com/v2/search/image?query=\(escapingString)"
+    let URL = "https://dapi.kakao.com/v2/search/image?query=\(escapingString)&size=\(40)"
 
     Alamofire.request(
       URL,
@@ -27,7 +27,6 @@ struct SearchImageService {
           callback(getInstanceData)
         } catch {
           print(error.localizedDescription)
-//          callback(nil)
         }
       case .failure(let error):
         print(error)

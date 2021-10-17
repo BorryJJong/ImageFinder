@@ -12,14 +12,16 @@ class SearchImageViewController: UIViewController, SearchImagePresenterDelegate 
   // MARK: - Properties
   
   static let cellID = "Cell"
-  var resultImages: [Documents] = []
+  var resultImages: [Documents] = [] {
+    didSet {
+      resultCollectionView.reloadData()
+    }
+  }
   var thumbnail: [String] = []
-  let service = SearchImageService()
-  weak var presenter: SearchImagePresenter?
+  var presenter: SearchImagePresenter? // nil
 
   func presentResult(result: [Documents]) {
     self.resultImages = result
-    resultCollectionView.reloadData()
     print("got!")
     print(self.resultImages)
   }
@@ -50,7 +52,7 @@ class SearchImageViewController: UIViewController, SearchImagePresenterDelegate 
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    presenter?.setViewDelegate(delegate: self)
+    presenter?.delegate = self
     setView()
     layout()
   }
@@ -102,48 +104,43 @@ extension SearchImageViewController: UICollectionViewDataSource {
     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchImageViewController.cellID, for: indexPath) as? ResultCollectionViewCell else {
       return UICollectionViewCell()
     }
-    print(indexPath.row)
+
     let urlString = resultImages[indexPath.row].thumbnailUrl
 
-    if let url = URL(string: urlString) {
-      if let data = try? Data(contentsOf: url) {
-        let image = UIImage(data: data)
-        print(data)
-        cell.thumbnailView.image = image
-        print(urlString)
+    DispatchQueue.global().async {
+      if let url = URL(string: urlString) {
+        if let data = try? Data(contentsOf: url) {
+          let image = UIImage(data: data)
+          DispatchQueue.main.async {
+            cell.thumbnailView.image = image // 이미지셋팅
+          }
+        }
       }
     }
+    
     return cell
   }
 }
 
 extension SearchImageViewController: UISearchBarDelegate {
   func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-    print("heyhey")
     let time = DispatchTime.now() + .seconds(1)
     let keyword = searchBar.text ?? ""
 
     resultCollectionView.isHidden = true
     searchLodingIndicator.startAnimating()
-
-    DispatchQueue.main.asyncAfter(deadline: time) {
-      self.searchLodingIndicator.stopAnimating()
-      self.resultCollectionView.isHidden = false
-      self.service.getSearchedImage(keyword: keyword, callback: {(resultImages) -> Void in
-        self.resultImages = resultImages.documents
-      })
-      self.resultCollectionView.reloadData()
-    }
+    
+    self.searchLodingIndicator.stopAnimating()
+    self.resultCollectionView.isHidden = false
+    self.presenter?.setImage(keyword: keyword)
   }
 }
 
 extension SearchImageViewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     let imageDetailView = ImageDetailViewController()
-
     imageDetailView.imageUrl = "jjong"
     navigationController?.pushViewController(imageDetailView, animated: true)
-
   }
 }
 
