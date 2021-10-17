@@ -105,12 +105,14 @@ extension SearchImageViewController: UICollectionViewDataSource {
     print(indexPath.row)
     let urlString = resultImages[indexPath.row].thumbnailUrl
 
-    if let url = URL(string: urlString) {
-      if let data = try? Data(contentsOf: url) {
-        let image = UIImage(data: data)
-        print(data)
-        cell.thumbnailView.image = image
-        print(urlString)
+    DispatchQueue.global().async {
+      if let url = URL(string: urlString) {
+        if let data = try? Data(contentsOf: url) {
+          let image = UIImage(data: data)
+          DispatchQueue.main.async {
+            cell.thumbnailView.image = image // 이미지셋팅
+          }
+        }
       }
     }
     return cell

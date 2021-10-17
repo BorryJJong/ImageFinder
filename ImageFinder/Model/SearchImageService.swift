@@ -23,7 +23,6 @@ struct SearchImageService {
       case .success(let result):
         do {
           let getInstanceData = try JSONDecoder().decode(APIResponse.self, from: result)
-          print("called api")
           callback(getInstanceData)
         } catch {
           print(error.localizedDescription)
