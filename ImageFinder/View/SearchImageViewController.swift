@@ -17,7 +17,7 @@ class SearchImageViewController: UIViewController, SearchImagePresenterDelegate 
       resultCollectionView.reloadData()
     }
   }
- var presenter: SearchImagePresenter?
+  var presenter: SearchImagePresenter?
 
   func presentResult(result: [Documents]) {
     self.resultImages = result
@@ -64,7 +64,7 @@ class SearchImageViewController: UIViewController, SearchImagePresenterDelegate 
     navigationItem.searchController = imageSearchBar
     navigationItem.hidesSearchBarWhenScrolling = false
     
-    resultCollectionView.backgroundColor = .red
+    resultCollectionView.backgroundColor = .white
     resultCollectionView.register(ResultCollectionViewCell.self, forCellWithReuseIdentifier: SearchImageViewController.cellID)
     resultCollectionView.dataSource = self
     resultCollectionView.delegate = self
@@ -121,7 +121,7 @@ extension SearchImageViewController: UICollectionViewDataSource {
 
 extension SearchImageViewController: UISearchBarDelegate {
   func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-//    let time = DispatchTime.now() + .seconds(1)
+    //    let time = DispatchTime.now() + .seconds(1)
     let keyword = searchBar.text ?? ""
 
     resultCollectionView.isHidden = true
@@ -139,6 +139,8 @@ extension SearchImageViewController: UICollectionViewDelegate {
     let imageDetailView = ImageDetailViewController()
 
     let urlString = resultImages[indexPath.row].imageUrl
+    let rowDateTime = resultImages[indexPath.row].dateTime
+    let imageSource = resultImages[indexPath.row].displaySiteName
 
     if let url = URL(string: urlString) {
       if let data = try? Data(contentsOf: url) {
@@ -147,7 +149,19 @@ extension SearchImageViewController: UICollectionViewDelegate {
         imageDetailView.imageView.image = image
       }
     }
-    //    imageDetailView.imageUrl = "jjong"
+//
+//    let dateTimeFormatter = DateFormatter()
+////    dateTimeFormatter.dateFormat = "yyyy-MM-dd HH:mm"
+//
+//    if let dateTime = dateTimeFormatter.date(from: rowDateTime) {
+//      print(dateTimeFormatter.date(from: rowDateTime))
+//      let dateTimeStr = dateTimeFormatter.string(from: dateTime)
+//      imageDetailView.dateLabel.text = dateTimeStr
+//    }
+//    print(rowDateTime)
+    imageDetailView.dateLabel.text = rowDateTime
+    imageDetailView.imageSourceLabel.text = imageSource
+
     navigationController?.pushViewController(imageDetailView, animated: true)
 
   }
