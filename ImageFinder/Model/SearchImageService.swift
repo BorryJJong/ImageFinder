@@ -8,6 +8,13 @@
 import Foundation
 import Alamofire
 
+enum SearchStatus: String {
+  case searchBarEmpty
+  case kewordTyping
+  case searchSuccessed
+  case searchFailed
+}
+
 struct SearchImageService {
   func getSearchedImage(keyword: String, callback: @escaping (APIResponse) -> Void) {
     let escapingString = keyword.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? ""
