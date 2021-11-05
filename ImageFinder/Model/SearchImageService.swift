@@ -16,10 +16,10 @@ enum SearchStatus: String {
 }
 
 struct SearchImageService {
-  func getSearchedImage(keyword: String, callback: @escaping (APIResponse) -> Void) {
+  func getSearchedImage(keyword: String, page: Int, callback: @escaping (APIResponse) -> Void) {
     let escapingString = keyword.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? ""
     let headers: HTTPHeaders = [ "Authorization": "KakaoAK 754d4ea04671ab9d7e2add279d718b0e" ]
-    let URL = "https://dapi.kakao.com/v2/search/image?query=\(escapingString)"
+    let URL = "https://dapi.kakao.com/v2/search/image?query=\(escapingString)&size=\(30)&page=\(page)"
 
     Alamofire.request(
       URL,
@@ -31,6 +31,7 @@ struct SearchImageService {
         do {
           let getInstanceData = try JSONDecoder().decode(APIResponse.self, from: result)
           callback(getInstanceData)
+          print(getInstanceData.meta.isEnd)
         } catch {
           print(error.localizedDescription)
         }

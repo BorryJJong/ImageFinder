@@ -17,10 +17,17 @@ class SearchImageViewController: UIViewController, SearchImagePresenterDelegate 
       resultCollectionView.reloadData()
     }
   }
+  var isResultEnd: Bool = false {
+    didSet {
+      resultCollectionView.reloadData()
+    }
+  }
+  var page: Int = 1
   var presenter: SearchImagePresenter?
 
-  func presentResult(result: [Documents]) {
+  func presentResult(result: [Documents], isEnd: Bool) {
     self.resultImages = result
+    self.isResultEnd = isEnd
     print(self.resultImages)
   }
 
@@ -183,7 +190,7 @@ extension SearchImageViewController: UISearchBarDelegate {
     DispatchQueue.main.asyncAfter(deadline: time) {
       self.searchLodingIndicator.stopAnimating()
       self.resultCollectionView.isHidden = false
-      self.presenter?.setResultImage(keyword: keyword)
+      self.presenter?.setResultImage(keyword: keyword, page: self.page)
     }
   }
 }
@@ -203,12 +210,28 @@ extension SearchImageViewController: UICollectionViewDelegate {
         imageDetailView.imageView.image = image
       }
     }
-
     imageDetailView.dateLabel.text = rowDateTime
     imageDetailView.imageSourceLabel.text = imageSource
 
     navigationController?.pushViewController(imageDetailView, animated: true)
+  }
 
+  func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    let height = scrollView.frame.height
+    let contentSizeHeight = scrollView.contentSize.height
+    let offset = scrollView.contentOffset.y
+    let reachedBottom = (offset + height == contentSizeHeight)
+
+    if reachedBottom {
+      scrollViewDidReachBottom(scrollView)
+    }
+  }
+
+  func scrollViewDidReachBottom(_ scrollView: UIScrollView) {
+    if !isResultEnd {
+      page += 1
+      presenter?.setResultImage(keyword: imageSearchBar.searchBar.text ?? "", page: page)
+    }
   }
 }
 

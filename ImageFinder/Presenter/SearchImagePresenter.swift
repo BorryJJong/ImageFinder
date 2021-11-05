@@ -8,7 +8,7 @@
 import Foundation
 
 protocol SearchImagePresenterDelegate: AnyObject {
-  func presentResult(result: [Documents])
+  func presentResult(result: [Documents], isEnd: Bool)
 }
 
 class SearchImagePresenter {
@@ -19,10 +19,11 @@ class SearchImagePresenter {
     self.searchImageService = searchImageService
   }
 
-  func setResultImage(keyword: String) {
-    self.searchImageService.getSearchedImage(keyword: keyword, callback: { response in
+  func setResultImage(keyword: String, page: Int) {
+    self.searchImageService.getSearchedImage(keyword: keyword, page: page, callback: { response in
       let documents = response.documents
-      self.delegate?.presentResult(result: documents)
+      let meta = response.meta
+      self.delegate?.presentResult(result: documents, isEnd: meta.isEnd)
     })
 
   }

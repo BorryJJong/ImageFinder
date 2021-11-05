@@ -15,15 +15,13 @@ class ImageDetailViewController: UIViewController {
     let scrollView = UIScrollView(frame: view.bounds)
     scrollView.translatesAutoresizingMaskIntoConstraints = false
     scrollView.contentSize = CGSize(width: scrollView.contentSize.width, height: UIScreen.main.bounds.height * 1.5)
-    scrollView.backgroundColor = .yellow
-    scrollView.showsVerticalScrollIndicator = true
+        scrollView.showsVerticalScrollIndicator = true
     return scrollView
   }()
 
   let contentsView: UIView = {
     let view = UIView()
     view.translatesAutoresizingMaskIntoConstraints = false
-    view.backgroundColor = .blue
     return view
   }()
 
@@ -31,7 +29,6 @@ class ImageDetailViewController: UIViewController {
     let imageView = UIImageView()
     imageView.translatesAutoresizingMaskIntoConstraints = false
     imageView.contentMode = .scaleAspectFit
-    imageView.backgroundColor = .red
     return imageView
   }()
   
