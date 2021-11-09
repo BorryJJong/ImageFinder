@@ -25,6 +25,5 @@ class SearchImagePresenter {
       let meta = response.meta
       self.delegate?.presentResult(result: documents, isEnd: meta.isEnd)
     })
-
   }
 }

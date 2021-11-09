@@ -23,14 +23,17 @@ class SearchImageViewController: UIViewController, SearchImagePresenterDelegate 
     }
   }
   var page: Int = 1
+  var searchDelayer = Timer()
+//  var timer: Timer?
   var presenter: SearchImagePresenter?
 
   func presentResult(result: [Documents], isEnd: Bool) {
-    self.resultImages = result
+//    self.resultImages = result
+    self.resultImages.append(contentsOf: result)
     self.isResultEnd = isEnd
     print(self.resultImages)
   }
-
+  
   // MARK: - UI
   
   let imageSearchBar: UISearchController = {
@@ -182,17 +185,22 @@ extension SearchImageViewController: UISearchBarDelegate {
     searchLodingIndicator.startAnimating()
   }
 
-  func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-    print(1)
-    let time = DispatchTime.now() + .seconds(1)
-    let keyword = searchBar.text ?? ""
+  func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+    searchDelayer.invalidate()
+        if true {
+            searchDelayer = Timer.scheduledTimer(timeInterval: 1.5, target: self, selector: #selector(self.doDelayedSearch), userInfo: searchText, repeats: false)
+        }
+    }
 
-    DispatchQueue.main.asyncAfter(deadline: time) {
+  @objc func doDelayedSearch(_ timer: Timer) {
+    assert(timer == searchDelayer)
+    if let keyword = searchDelayer.userInfo as? String {
       self.searchLodingIndicator.stopAnimating()
       self.resultCollectionView.isHidden = false
       self.presenter?.setResultImage(keyword: keyword, page: self.page)
     }
-  }
+      searchDelayer.invalidate()
+    }
 }
 
 extension SearchImageViewController: UICollectionViewDelegate {
