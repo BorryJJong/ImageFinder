@@ -10,7 +10,7 @@ import Alamofire
 
 enum SearchStatus: String {
   case searchBarEmpty
-  case kewordTyping
+  case keywordTyping
   case searchSuccessed
   case searchFailed
 }

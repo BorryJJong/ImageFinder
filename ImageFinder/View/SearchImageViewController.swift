@@ -24,11 +24,9 @@ class SearchImageViewController: UIViewController, SearchImagePresenterDelegate 
   }
   var page: Int = 1
   var searchDelayer = Timer()
-//  var timer: Timer?
   var presenter: SearchImagePresenter?
 
   func presentResult(result: [Documents], isEnd: Bool) {
-//    self.resultImages = result
     self.resultImages.append(contentsOf: result)
     self.isResultEnd = isEnd
     print(self.resultImages)
@@ -103,7 +101,7 @@ class SearchImageViewController: UIViewController, SearchImagePresenterDelegate 
 
     view.addSubview(resultCollectionView)
     view.addSubview(statusView)
-    view.addSubview(searchLodingIndicator)
+    view.addSubview(searchLoadingIndicator)
     statusView.addSubview(searchStatusLabel)
     statusView.addSubview(searchStatusImageView)
   }
@@ -125,7 +123,7 @@ class SearchImageViewController: UIViewController, SearchImagePresenterDelegate 
     searchStatusLabel.centerXAnchor.constraint(equalTo: statusView.centerXAnchor).isActive = true
     searchStatusLabel.topAnchor.constraint(equalTo: searchStatusImageView.bottomAnchor, constant: 20).isActive = true
 
-    searchLodingIndicator.center = view.center
+    searchLoadingIndicator.center = view.center
   }
 
   func setStatusView(status: SearchStatus) {
@@ -135,7 +133,8 @@ class SearchImageViewController: UIViewController, SearchImagePresenterDelegate 
     case .searchBarEmpty:
       self.searchStatusImageView.image = UIImage(named: "search.svg")
       self.searchStatusLabel.text = "검색어를 입력하세요"
-    case .kewordTyping: break
+    case .kewordTyping:
+      statusView.isHidden = true
     case .searchSuccessed:
       statusView.isHidden = true
     case .searchFailed:
@@ -181,23 +180,22 @@ extension SearchImageViewController: UICollectionViewDataSource {
 
 extension SearchImageViewController: UISearchBarDelegate {
   func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-    statusView.isHidden = true
-    searchLodingIndicator.startAnimating()
+    setStatusView(status: .keywordTyping)
   }
 
   func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
     searchDelayer.invalidate()
-        if true {
-            searchDelayer = Timer.scheduledTimer(timeInterval: 1.5, target: self, selector: #selector(self.doDelayedSearch), userInfo: searchText, repeats: false)
-        }
+    self.searchLoadingIndicator.startAnimating()
+    if true {
+      searchDelayer = Timer.scheduledTimer(timeInterval: 1.5, target: self, selector: #selector(self.doDelayedSearch), userInfo: searchText, repeats: false)
     }
+  }
 
   @objc func doDelayedSearch(_ timer: Timer) {
-    assert(timer == searchDelayer)
     if let keyword = searchDelayer.userInfo as? String {
-      self.searchLodingIndicator.stopAnimating()
-      self.resultCollectionView.isHidden = false
-      self.presenter?.setResultImage(keyword: keyword, page: self.page)
+      searchLoadingIndicator.stopAnimating()
+      resultCollectionView.isHidden = false
+      presenter?.setResultImage(keyword: keyword, page: self.page)
     }
       searchDelayer.invalidate()
     }
