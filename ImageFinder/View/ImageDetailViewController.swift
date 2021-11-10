@@ -14,6 +14,7 @@ class ImageDetailViewController: UIViewController {
   lazy var scrollView: UIScrollView = {
     let scrollView = UIScrollView(frame: view.bounds)
     scrollView.translatesAutoresizingMaskIntoConstraints = false
+    scrollView.backgroundColor = .white
     scrollView.contentSize = CGSize(width: scrollView.contentSize.width, height: UIScreen.main.bounds.height * 1.5)
         scrollView.showsVerticalScrollIndicator = true
     return scrollView
@@ -48,14 +49,12 @@ class ImageDetailViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-
     setView()
     layout()
   }
   
   func setView() {
     navigationController?.isNavigationBarHidden = false
-
     view.addSubview(scrollView)
     scrollView.addSubview(contentsView)
     contentsView.addSubview(imageView)
