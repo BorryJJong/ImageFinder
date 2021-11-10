@@ -47,7 +47,7 @@ class SearchImageViewController: UIViewController, SearchImagePresenterDelegate 
     return collectionView
   }()
 
-  let searchLodingIndicator: UIActivityIndicatorView = {
+  let searchLoadingIndicator: UIActivityIndicatorView = {
     let activityIndicator = UIActivityIndicatorView()
     activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
     return activityIndicator
@@ -133,7 +133,7 @@ class SearchImageViewController: UIViewController, SearchImagePresenterDelegate 
     case .searchBarEmpty:
       self.searchStatusImageView.image = UIImage(named: "search.svg")
       self.searchStatusLabel.text = "검색어를 입력하세요"
-    case .kewordTyping:
+    case .keywordTyping:
       statusView.isHidden = true
     case .searchSuccessed:
       statusView.isHidden = true
