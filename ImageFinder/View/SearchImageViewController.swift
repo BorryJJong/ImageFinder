@@ -156,7 +156,6 @@ extension SearchImageViewController: UICollectionViewDataSource {
     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchImageViewController.cellID, for: indexPath) as? ResultCollectionViewCell else {
       return UICollectionViewCell()
     }
-    print(indexPath.row)
     let urlString = resultImages[indexPath.row].thumbnailUrl
 
     DispatchQueue.global().async {
@@ -184,9 +183,11 @@ extension SearchImageViewController: UISearchBarDelegate {
     resultImages = []
     page = 1
 
-    if true {
-      searchDelayer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.doDelayedSearch), userInfo: searchText, repeats: false)
-    }
+    searchDelayer = Timer.scheduledTimer(
+      timeInterval: 1,
+      target: self,
+      selector: #selector(self.doDelayedSearch),
+      userInfo: searchText, repeats: false)
   }
 
   @objc func doDelayedSearch(_ timer: Timer) {
@@ -202,17 +203,14 @@ extension SearchImageViewController: UISearchBarDelegate {
 extension SearchImageViewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     let imageDetailView = ImageDetailViewController()
-
     let urlString = resultImages[indexPath.row].imageUrl
     let rowDateTime = resultImages[indexPath.row].dateTime
     let imageSource = resultImages[indexPath.row].displaySiteName
 
-    if let url = URL(string: urlString) {
-      if let data = try? Data(contentsOf: url) {
-        let image = UIImage(data: data)
-        print(data)
-        imageDetailView.imageView.image = image
-      }
+    if let url = URL(string: urlString),
+       let data = try? Data(contentsOf: url) {
+      let image = UIImage(data: data)
+      imageDetailView.imageView.image = image
     }
     imageDetailView.dateLabel.text = rowDateTime
     imageDetailView.imageSourceLabel.text = imageSource

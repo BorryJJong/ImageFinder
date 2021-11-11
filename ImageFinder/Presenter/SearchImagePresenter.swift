@@ -19,17 +19,20 @@ class SearchImagePresenter {
   init(searchImageService: SearchImageService) {
     self.searchImageService = searchImageService
   }
-
+  
   func setResultImage(keyword: String, page: Int) {
-    self.searchImageService.getSearchedImage(keyword: keyword, page: page, callback: { response in
-      let documents = response.documents
-      let meta = response.meta
-      
-      if documents.isEmpty {
-        self.delegate?.setStatusView(status: .searchFailed)
-      } else {
-        self.delegate?.presentResult(result: documents, isEnd: meta.isEnd)
-      }
-    })
+    self.searchImageService.getSearchedImage(
+      keyword: keyword,
+      page: page,
+      callback: { response in
+        let documents = response.documents
+        let meta = response.meta
+
+        if documents.isEmpty {
+          self.delegate?.setStatusView(status: .searchFailed)
+        } else {
+          self.delegate?.presentResult(result: documents, isEnd: meta.isEnd)
+        }
+      })
   }
 }
