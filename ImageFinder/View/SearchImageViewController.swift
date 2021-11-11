@@ -164,7 +164,7 @@ extension SearchImageViewController: UICollectionViewDataSource {
         if let data = try? Data(contentsOf: url) {
           let image = UIImage(data: data)
           DispatchQueue.main.async {
-            cell.thumbnailView.image = image // 이미지셋팅
+            cell.thumbnailView.image = image
           }
         }
       }

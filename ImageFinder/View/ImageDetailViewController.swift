@@ -52,7 +52,9 @@ class ImageDetailViewController: UIViewController {
     setView()
     layout()
   }
-  
+
+  // MARK: - Layout
+
   func setView() {
     navigationController?.isNavigationBarHidden = false
     view.addSubview(scrollView)

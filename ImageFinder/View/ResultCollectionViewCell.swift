@@ -32,7 +32,9 @@ class ResultCollectionViewCell: UICollectionViewCell {
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
-  
+
+  // MARK: - Layout
+
   func layout() {
     thumbnailView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
     thumbnailView.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
