@@ -185,7 +185,7 @@ extension SearchImageViewController: UISearchBarDelegate {
     page = 1
 
     if true {
-      searchDelayer = Timer.scheduledTimer(timeInterval: 1.5, target: self, selector: #selector(self.doDelayedSearch), userInfo: searchText, repeats: false)
+      searchDelayer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.doDelayedSearch), userInfo: searchText, repeats: false)
     }
   }
 

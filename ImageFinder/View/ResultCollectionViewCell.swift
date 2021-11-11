@@ -23,8 +23,6 @@ class ResultCollectionViewCell: UICollectionViewCell {
   
   override init(frame: CGRect) {
     super.init(frame: .zero)
-    
-    contentView.backgroundColor = .brown
     contentView.addSubview(thumbnailView)
     layout()
   }
