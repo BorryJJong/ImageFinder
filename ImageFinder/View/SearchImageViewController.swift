@@ -148,12 +148,7 @@ class SearchImageViewController: UIViewController, SearchImagePresenterDelegate 
 
 extension SearchImageViewController: UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    if resultImages.count == 0 && imageSearchBar.isActive {
-      setStatusView(status: .searchFailed)
-    } else {
-      collectionView.reloadData()
-    }
-    print(resultImages.count)
+    collectionView.reloadData()
     return resultImages.count
   }
   
@@ -186,6 +181,9 @@ extension SearchImageViewController: UISearchBarDelegate {
   func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
     searchDelayer.invalidate()
     self.searchLoadingIndicator.startAnimating()
+    resultImages = []
+    page = 1
+
     if true {
       searchDelayer = Timer.scheduledTimer(timeInterval: 1.5, target: self, selector: #selector(self.doDelayedSearch), userInfo: searchText, repeats: false)
     }
@@ -197,8 +195,8 @@ extension SearchImageViewController: UISearchBarDelegate {
       resultCollectionView.isHidden = false
       presenter?.setResultImage(keyword: keyword, page: self.page)
     }
-      searchDelayer.invalidate()
-    }
+    searchDelayer.invalidate()
+  }
 }
 
 extension SearchImageViewController: UICollectionViewDelegate {

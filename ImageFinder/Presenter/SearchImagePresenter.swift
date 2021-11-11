@@ -9,6 +9,7 @@ import Foundation
 
 protocol SearchImagePresenterDelegate: AnyObject {
   func presentResult(result: [Documents], isEnd: Bool)
+  func setStatusView(status: SearchStatus)
 }
 
 class SearchImagePresenter {
@@ -23,7 +24,12 @@ class SearchImagePresenter {
     self.searchImageService.getSearchedImage(keyword: keyword, page: page, callback: { response in
       let documents = response.documents
       let meta = response.meta
-      self.delegate?.presentResult(result: documents, isEnd: meta.isEnd)
+      
+      if documents.isEmpty {
+        self.delegate?.setStatusView(status: .searchFailed)
+      } else {
+        self.delegate?.presentResult(result: documents, isEnd: meta.isEnd)
+      }
     })
   }
 }

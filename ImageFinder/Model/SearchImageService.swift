@@ -31,7 +31,7 @@ struct SearchImageService {
         do {
           let getInstanceData = try JSONDecoder().decode(APIResponse.self, from: result)
           callback(getInstanceData)
-          print(getInstanceData.meta.isEnd)
+          print(getInstanceData)
         } catch {
           print(error.localizedDescription)
         }
