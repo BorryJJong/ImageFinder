@@ -13,15 +13,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
   func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
     guard let windowScene = (scene as? UIWindowScene) else { return }
-    window = UIWindow(windowScene: windowScene)
 
-    let view = SearchImageViewController()
-    let service = SearchImageService()
-    let presenter = SearchImagePresenter(searchImageService: service)
+    window = UIWindow(windowScene: windowScene)
+    let view = ChallengeViewController()
+    let presenter = ChallengePresenter()
     view.presenter = presenter
 
     let navigationCotroller = UINavigationController(rootViewController: view)
     window?.rootViewController = navigationCotroller
+
+//    ** ImageFinder code
+//    let view = SearchImageViewController()
+//    let service = SearchImageService()
+//    let presenter = SearchImagePresenter(searchImageService: service)
+//    view.presenter = presenter
+//
+//    let navigationCotroller = UINavigationController(rootViewController: view)
+//    window?.rootViewController = navigationCotroller
+
     window?.makeKeyAndVisible()
   }
 

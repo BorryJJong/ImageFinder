@@ -19,6 +19,8 @@
 		618C231226F21D14001D9885 /* APIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C231126F21D14001D9885 /* APIResponse.swift */; };
 		618C231426F21D29001D9885 /* Documents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C231326F21D29001D9885 /* Documents.swift */; };
 		618C231626F6250B001D9885 /* ImageDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C231526F6250B001D9885 /* ImageDetailViewController.swift */; };
+		618EF288273E9EB40047C732 /* ChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618EF287273E9EB40047C732 /* ChallengeViewController.swift */; };
+		618EF28A273EA2680047C732 /* ChallengePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618EF289273EA2680047C732 /* ChallengePresenter.swift */; };
 		61BD4F012719B1D1004E6724 /* SearchImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BD4F002719B1D1004E6724 /* SearchImageService.swift */; };
 		61BD4F032719B6A3004E6724 /* Meta.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BD4F022719B6A3004E6724 /* Meta.swift */; };
 		B14ED33000E484D6488999A9 /* Pods_ImageFinder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FAE11991270C331A59607F5 /* Pods_ImageFinder.framework */; };
@@ -40,6 +42,8 @@
 		618C231126F21D14001D9885 /* APIResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResponse.swift; sourceTree = "<group>"; };
 		618C231326F21D29001D9885 /* Documents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Documents.swift; sourceTree = "<group>"; };
 		618C231526F6250B001D9885 /* ImageDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDetailViewController.swift; sourceTree = "<group>"; };
+		618EF287273E9EB40047C732 /* ChallengeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeViewController.swift; sourceTree = "<group>"; };
+		618EF289273EA2680047C732 /* ChallengePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengePresenter.swift; sourceTree = "<group>"; };
 		61BD4F002719B1D1004E6724 /* SearchImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchImageService.swift; sourceTree = "<group>"; };
 		61BD4F022719B6A3004E6724 /* Meta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Meta.swift; sourceTree = "<group>"; };
 		9FAE11991270C331A59607F5 /* Pods_ImageFinder.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ImageFinder.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -100,6 +104,7 @@
 				618C22F426F1BFDE001D9885 /* SearchImageViewController.swift */,
 				618C230C26F210CF001D9885 /* ResultCollectionViewCell.swift */,
 				618C231526F6250B001D9885 /* ImageDetailViewController.swift */,
+				618EF287273E9EB40047C732 /* ChallengeViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -108,6 +113,7 @@
 			isa = PBXGroup;
 			children = (
 				618C230A26F20F40001D9885 /* SearchImagePresenter.swift */,
+				618EF289273EA2680047C732 /* ChallengePresenter.swift */,
 			);
 			path = Presenter;
 			sourceTree = "<group>";
@@ -280,11 +286,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				618EF288273E9EB40047C732 /* ChallengeViewController.swift in Sources */,
 				618C231226F21D14001D9885 /* APIResponse.swift in Sources */,
 				61BD4F012719B1D1004E6724 /* SearchImageService.swift in Sources */,
 				618C22F526F1BFDE001D9885 /* SearchImageViewController.swift in Sources */,
 				618C22F126F1BFDE001D9885 /* AppDelegate.swift in Sources */,
 				618C231426F21D29001D9885 /* Documents.swift in Sources */,
+				618EF28A273EA2680047C732 /* ChallengePresenter.swift in Sources */,
 				618C230B26F20F40001D9885 /* SearchImagePresenter.swift in Sources */,
 				618C22F326F1BFDE001D9885 /* SceneDelegate.swift in Sources */,
 				61BD4F032719B6A3004E6724 /* Meta.swift in Sources */,
