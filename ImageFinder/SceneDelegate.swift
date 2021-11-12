@@ -15,9 +15,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     guard let windowScene = (scene as? UIWindowScene) else { return }
     window = UIWindow(windowScene: windowScene)
 
-    let rootViewController = SearchImageViewController()
-    let navigationCotroller = UINavigationController(rootViewController: rootViewController)
+    let view = SearchImageViewController()
+    let service = SearchImageService()
+    let presenter = SearchImagePresenter(searchImageService: service)
+    view.presenter = presenter
 
+    let navigationCotroller = UINavigationController(rootViewController: view)
     window?.rootViewController = navigationCotroller
     window?.makeKeyAndVisible()
   }

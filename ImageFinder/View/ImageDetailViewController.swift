@@ -9,27 +9,27 @@ import UIKit
 
 class ImageDetailViewController: UIViewController {
 
-  // MARK: - Properties
-
-//  weak var presenter: ImageDetailPresenter?
-
-  var imageUrl: String?
   // MARK: - UI
   
   lazy var scrollView: UIScrollView = {
     let scrollView = UIScrollView(frame: view.bounds)
     scrollView.translatesAutoresizingMaskIntoConstraints = false
-    scrollView.contentSize = imageView.bounds.size
-    scrollView.backgroundColor = .yellow
-    scrollView.showsVerticalScrollIndicator = true
+    scrollView.backgroundColor = .white
+    scrollView.contentSize = CGSize(width: scrollView.contentSize.width, height: UIScreen.main.bounds.height * 1.5)
+        scrollView.showsVerticalScrollIndicator = true
     return scrollView
   }()
-  
+
+  let contentsView: UIView = {
+    let view = UIView()
+    view.translatesAutoresizingMaskIntoConstraints = false
+    return view
+  }()
+
   let imageView: UIImageView = {
     let imageView = UIImageView()
     imageView.translatesAutoresizingMaskIntoConstraints = false
     imageView.contentMode = .scaleAspectFit
-    imageView.backgroundColor = .blue
     return imageView
   }()
   
@@ -49,39 +49,40 @@ class ImageDetailViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-
     setView()
     layout()
   }
-  
+
+  // MARK: - Layout
+
   func setView() {
     navigationController?.isNavigationBarHidden = false
-
-    // imageView.image = UIImage(name: presentingViewController.getSelectedImage!)
     view.addSubview(scrollView)
-    imageView.image = UIImage(named: imageUrl ?? "")
-    scrollView.addSubview(imageView)
-    view.addSubview(imageSourceLabel)
-    view.addSubview(dateLabel)
+    scrollView.addSubview(contentsView)
+    contentsView.addSubview(imageView)
+    contentsView.addSubview(imageSourceLabel)
+    contentsView.addSubview(dateLabel)
   }
   
   func layout() {
-    scrollView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor).isActive = true
-    scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-    scrollView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor).isActive = true
-    scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-    scrollView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor).isActive = true
+    scrollView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+    scrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+    scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+    scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
 
-    imageView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor).isActive = true
-    imageView.leftAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leftAnchor).isActive = true
-    imageView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor).isActive = true
-    imageView.rightAnchor.constraint(equalTo: scrollView.contentLayoutGuide.rightAnchor).isActive = true
-    imageView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor).isActive = true
+    contentsView.widthAnchor.constraint(equalToConstant: scrollView.frame.width).isActive = true
+    contentsView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
+    contentsView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+    contentsView.bottomAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 40).isActive = true
 
-    imageSourceLabel.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 5).isActive = true
-    imageSourceLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 5).isActive = true
+    imageView.topAnchor.constraint(equalTo: contentsView.topAnchor).isActive = true
+    imageView.widthAnchor.constraint(equalTo: contentsView.widthAnchor).isActive = true
+    imageView.centerXAnchor.constraint(equalTo: contentsView.centerXAnchor).isActive = true
+
+    imageSourceLabel.leftAnchor.constraint(equalTo: contentsView.leftAnchor, constant: 5).isActive = true
+    imageSourceLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 10).isActive = true
     
-    dateLabel.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 5).isActive = true
-    dateLabel.bottomAnchor.constraint(equalTo: imageSourceLabel.topAnchor, constant: 2).isActive = true
+    dateLabel.leftAnchor.constraint(equalTo: contentsView.leftAnchor, constant: 5).isActive = true
+    dateLabel.topAnchor.constraint(equalTo: imageSourceLabel.bottomAnchor, constant: 2).isActive = true
   }
 }

@@ -1,21 +1,26 @@
 //
-//  SearchImageAPI.swift
+//  SearchImageService.swift
 //  ImageFinder
 //
-//  Created by Daye on 2021/09/15.
+//  Created by Daye on 2021/10/15.
 //
 
 import Foundation
 import Alamofire
 
-class SearchImageAPI: SearchImageApi {
-  // let instance = SearchImageAPI()
+enum SearchStatus: String {
+  case searchBarEmpty
+  case keywordTyping
+  case searchSuccessed
+  case searchFailed
+}
 
-  func doSearchImage(keyword: String) {
+struct SearchImageService {
+  func getSearchedImage(keyword: String, page: Int, callback: @escaping (APIResponse) -> Void) {
     let escapingString = keyword.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? ""
     let headers: HTTPHeaders = [ "Authorization": "KakaoAK 754d4ea04671ab9d7e2add279d718b0e" ]
-    let URL = "https://dapi.kakao.com/v2/search/image?query=\(escapingString)"
-    
+    let URL = "https://dapi.kakao.com/v2/search/image?query=\(escapingString)&size=\(30)&page=\(page)"
+
     Alamofire.request(
       URL,
       method: .get,
@@ -25,10 +30,7 @@ class SearchImageAPI: SearchImageApi {
       case .success(let result):
         do {
           let getInstanceData = try JSONDecoder().decode(APIResponse.self, from: result)
-          print("called api")
-
-          presentResult(result: getInstanceData.documents)
-//          print(getInstanceData)
+          callback(getInstanceData)
         } catch {
           print(error.localizedDescription)
         }

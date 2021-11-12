@@ -23,8 +23,6 @@ class ResultCollectionViewCell: UICollectionViewCell {
   
   override init(frame: CGRect) {
     super.init(frame: .zero)
-    
-    contentView.backgroundColor = .brown
     contentView.addSubview(thumbnailView)
     layout()
   }
@@ -32,7 +30,9 @@ class ResultCollectionViewCell: UICollectionViewCell {
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
-  
+
+  // MARK: - Layout
+
   func layout() {
     thumbnailView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
     thumbnailView.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true

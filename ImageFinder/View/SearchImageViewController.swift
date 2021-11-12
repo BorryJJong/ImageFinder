@@ -7,26 +7,31 @@
 
 import UIKit
 
-protocol SearchImageApi {
-  func doSearchImage(keyword: String)
-}
+class SearchImageViewController: UIViewController, SearchImagePresenterDelegate {
 
-class SearchImageViewController: UIViewController, SearchImagePresenterDelegate, UISearchControllerDelegate {
-  
   // MARK: - Properties
   
   static let cellID = "Cell"
-  var resultImages: [Documents] = []
-  var thumbnail: [String] = []
-  let presenter = SearchImagePresenter(imageSearchService: <#SearchImageAPI#>)
+  var resultImages: [Documents] = [] {
+    didSet {
+      resultCollectionView.reloadData()
+    }
+  }
+  var isResultEnd: Bool = false {
+    didSet {
+      resultCollectionView.reloadData()
+    }
+  }
+  var page: Int = 1
+  var searchDelayer = Timer()
+  var presenter: SearchImagePresenter?
 
-  func presentResult(result: [Documents]) {
-    self.resultImages = result
-    resultCollectionView.reloadData()
-    print("got!")
+  func presentResult(result: [Documents], isEnd: Bool) {
+    self.resultImages.append(contentsOf: result)
+    self.isResultEnd = isEnd
     print(self.resultImages)
   }
-
+  
   // MARK: - UI
   
   let imageSearchBar: UISearchController = {
@@ -39,21 +44,39 @@ class SearchImageViewController: UIViewController, SearchImagePresenterDelegate,
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
     flowLayout.scrollDirection = .vertical
     collectionView.translatesAutoresizingMaskIntoConstraints = false
-    collectionView.setStatusView(status: "beforeSearch")
     return collectionView
   }()
 
-  let searchLodingIndicator: UIActivityIndicatorView = {
+  let searchLoadingIndicator: UIActivityIndicatorView = {
     let activityIndicator = UIActivityIndicatorView()
     activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
     return activityIndicator
+  }()
+
+  let statusView: UIView = {
+    let view = UIView()
+    view.translatesAutoresizingMaskIntoConstraints = false
+    return view
+  }()
+
+  let searchStatusImageView: UIImageView = {
+    let imageView = UIImageView()
+    imageView.translatesAutoresizingMaskIntoConstraints = false
+    return imageView
+  }()
+
+  let searchStatusLabel: UILabel = {
+    let label = UILabel()
+    label.translatesAutoresizingMaskIntoConstraints = false
+    label.textColor = .gray
+    return label
   }()
 
   // MARK: - Lifecycle
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    presenter.setViewDelegate(delegate: self)
+    presenter?.delegate = self
     setView()
     layout()
   }
@@ -66,16 +89,21 @@ class SearchImageViewController: UIViewController, SearchImagePresenterDelegate,
     navigationItem.title = "이미지 검색"
     navigationItem.searchController = imageSearchBar
     navigationItem.hidesSearchBarWhenScrolling = false
+
+    setStatusView(status: .searchBarEmpty)
     
-    resultCollectionView.backgroundColor = .red
+    resultCollectionView.backgroundColor = .white
     resultCollectionView.register(ResultCollectionViewCell.self, forCellWithReuseIdentifier: SearchImageViewController.cellID)
     resultCollectionView.dataSource = self
     resultCollectionView.delegate = self
 
     imageSearchBar.searchBar.delegate = self
-    
+
     view.addSubview(resultCollectionView)
-    view.addSubview(searchLodingIndicator)
+    view.addSubview(statusView)
+    view.addSubview(searchLoadingIndicator)
+    statusView.addSubview(searchStatusLabel)
+    statusView.addSubview(searchStatusImageView)
   }
   
   func layout() {
@@ -84,7 +112,35 @@ class SearchImageViewController: UIViewController, SearchImagePresenterDelegate,
     resultCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
     resultCollectionView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
 
-    searchLodingIndicator.center = view.center
+    statusView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
+    statusView.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor).isActive = true
+    statusView.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor).isActive = true
+    statusView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor).isActive = true
+
+    searchStatusImageView.centerXAnchor.constraint(equalTo: statusView.centerXAnchor).isActive = true
+    searchStatusImageView.centerYAnchor.constraint(equalTo: statusView.centerYAnchor, constant: -60).isActive = true
+
+    searchStatusLabel.centerXAnchor.constraint(equalTo: statusView.centerXAnchor).isActive = true
+    searchStatusLabel.topAnchor.constraint(equalTo: searchStatusImageView.bottomAnchor, constant: 20).isActive = true
+
+    searchLoadingIndicator.center = view.center
+  }
+
+  func setStatusView(status: SearchStatus) {
+    statusView.isHidden = false
+
+    switch status {
+    case .searchBarEmpty:
+      self.searchStatusImageView.image = UIImage(named: "search.svg")
+      self.searchStatusLabel.text = "검색어를 입력하세요"
+    case .keywordTyping:
+      statusView.isHidden = true
+    case .searchSuccessed:
+      statusView.isHidden = true
+    case .searchFailed:
+      self.searchStatusImageView.image = UIImage(named: "noResult.svg")
+      self.searchStatusLabel.text = "검색 결과가 없습니다"
+    }
   }
 }
 
@@ -92,12 +148,7 @@ class SearchImageViewController: UIViewController, SearchImagePresenterDelegate,
 
 extension SearchImageViewController: UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    if resultImages.count == 0 {
-      resultCollectionView.setStatusView(status: "noResult")
-    } else {
-      collectionView.restore()
-    }
-    print(resultImages.count)
+    collectionView.reloadData()
     return resultImages.count
   }
   
@@ -105,47 +156,84 @@ extension SearchImageViewController: UICollectionViewDataSource {
     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchImageViewController.cellID, for: indexPath) as? ResultCollectionViewCell else {
       return UICollectionViewCell()
     }
-    print(indexPath.row)
     let urlString = resultImages[indexPath.row].thumbnailUrl
 
-    if let url = URL(string: urlString) {
-      if let data = try? Data(contentsOf: url) {
-        let image = UIImage(data: data)
-        print(data)
-        cell.thumbnailView.image = image
-        print(urlString)
+    DispatchQueue.global().async {
+      if let url = URL(string: urlString) {
+        if let data = try? Data(contentsOf: url) {
+          let image = UIImage(data: data)
+          DispatchQueue.main.async {
+            cell.thumbnailView.image = image
+          }
+        }
       }
     }
-//    cell.thumbnailView.image = UIImage(named: "jjong")
     return cell
   }
 }
 
 extension SearchImageViewController: UISearchBarDelegate {
-  func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-    print("heyhey")
-    let time = DispatchTime.now() + .seconds(1)
-    let keyword = searchBar.text ?? ""
+  func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+    setStatusView(status: .keywordTyping)
+  }
 
-    resultCollectionView.isHidden = true
-    searchLodingIndicator.startAnimating()
+  func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+    searchDelayer.invalidate()
+    self.searchLoadingIndicator.startAnimating()
+    resultImages = []
+    page = 1
 
-    DispatchQueue.main.asyncAfter(deadline: time) {
-      self.searchLodingIndicator.stopAnimating()
-      self.resultCollectionView.isHidden = false
-      self.presenter.imageSearchService.doSearchImage(keyword: keyword)
-      self.resultCollectionView.reloadData()
+    searchDelayer = Timer.scheduledTimer(
+      timeInterval: 1,
+      target: self,
+      selector: #selector(self.doDelayedSearch),
+      userInfo: searchText, repeats: false)
+  }
+
+  @objc func doDelayedSearch(_ timer: Timer) {
+    if let keyword = searchDelayer.userInfo as? String {
+      searchLoadingIndicator.stopAnimating()
+      resultCollectionView.isHidden = false
+      presenter?.setResultImage(keyword: keyword, page: self.page)
     }
+    searchDelayer.invalidate()
   }
 }
 
 extension SearchImageViewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     let imageDetailView = ImageDetailViewController()
+    let urlString = resultImages[indexPath.row].imageUrl
+    let rowDateTime = resultImages[indexPath.row].dateTime
+    let imageSource = resultImages[indexPath.row].displaySiteName
 
-    imageDetailView.imageUrl = "jjong"
+    if let url = URL(string: urlString),
+       let data = try? Data(contentsOf: url) {
+      let image = UIImage(data: data)
+      imageDetailView.imageView.image = image
+    }
+    imageDetailView.dateLabel.text = rowDateTime
+    imageDetailView.imageSourceLabel.text = imageSource
+
     navigationController?.pushViewController(imageDetailView, animated: true)
+  }
 
+  func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    let height = scrollView.frame.height
+    let contentSizeHeight = scrollView.contentSize.height
+    let offset = scrollView.contentOffset.y
+    let reachedBottom = (offset + height == contentSizeHeight)
+
+    if reachedBottom {
+      scrollViewDidReachBottom(scrollView)
+    }
+  }
+
+  func scrollViewDidReachBottom(_ scrollView: UIScrollView) {
+    if !isResultEnd {
+      page += 1
+      presenter?.setResultImage(keyword: imageSearchBar.searchBar.text ?? "", page: page)
+    }
   }
 }
 
@@ -168,53 +256,5 @@ extension SearchImageViewController: UICollectionViewDelegateFlowLayout {
   // collectionView internal margin
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
     return UIEdgeInsets(top: 2.5, left: 2.5, bottom: 2.5, right: 2.5)
-  }
-}
-
-extension UICollectionView {
-  func setStatusView(status: String) {
-    let statusView: UIView = {
-      let view = UIView(frame: CGRect(x: self.center.x, y: self.center.y, width: self.bounds.width, height: self.bounds.height))
-
-      return view
-    }()
-
-    let searchStatusImageView: UIImageView = {
-      let imageView = UIImageView()
-      imageView.translatesAutoresizingMaskIntoConstraints = false
-      if status == "beforeSearch" {
-        imageView.image = UIImage(named: "search.svg")
-      } else if status == "noResult" {
-        imageView.image = UIImage(named: "noResult.svg")
-      }
-      return imageView
-    }()
-
-    let searchStatusLabel: UILabel = {
-      let label = UILabel()
-      label.translatesAutoresizingMaskIntoConstraints = false
-      label.textColor = .gray
-      if status == "beforeSearch" {
-        label.text = "검색어를 입력하세요"
-      } else if status == "noResult" {
-        label.text = "검색 결과가 없습니다"
-      }
-      return label
-    }()
-
-    statusView.addSubview(searchStatusLabel)
-    statusView.addSubview(searchStatusImageView)
-
-    searchStatusImageView.centerXAnchor.constraint(equalTo: statusView.centerXAnchor).isActive = true
-    searchStatusImageView.centerYAnchor.constraint(equalTo: statusView.centerYAnchor, constant: -40).isActive = true
-
-    searchStatusLabel.centerXAnchor.constraint(equalTo: statusView.centerXAnchor).isActive = true
-    searchStatusLabel.topAnchor.constraint(equalTo: searchStatusImageView.bottomAnchor, constant: 20).isActive = true
-
-    self.backgroundView = statusView
-  }
-
-  func restore() {
-    self.backgroundView = nil
   }
 }

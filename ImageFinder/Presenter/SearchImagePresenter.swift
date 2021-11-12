@@ -8,18 +8,31 @@
 import Foundation
 
 protocol SearchImagePresenterDelegate: AnyObject {
-  func presentResult(result: [Documents])
+  func presentResult(result: [Documents], isEnd: Bool)
+  func setStatusView(status: SearchStatus)
 }
 
 class SearchImagePresenter {
+  var searchImageService: SearchImageService
   weak var delegate: SearchImagePresenterDelegate?
-  let imageSearchService: SearchImageAPI
 
-  init(imageSearchService: SearchImageAPI){
-    self.imageSearchService = imageSearchService
+  init(searchImageService: SearchImageService) {
+    self.searchImageService = searchImageService
   }
+  
+  func setResultImage(keyword: String, page: Int) {
+    self.searchImageService.getSearchedImage(
+      keyword: keyword,
+      page: page,
+      callback: { response in
+        let documents = response.documents
+        let meta = response.meta
 
-  func setViewDelegate(delegate: SearchImageViewController) {
-     self.delegate = delegate
-   }
+        if documents.isEmpty {
+          self.delegate?.setStatusView(status: .searchFailed)
+        } else {
+          self.delegate?.presentResult(result: documents, isEnd: meta.isEnd)
+        }
+      })
+  }
 }
