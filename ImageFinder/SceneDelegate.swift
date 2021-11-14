@@ -29,6 +29,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     let viewMyPage = SearchImageViewController()
 
     tabBarController.setViewControllers([viewHome, viewChallenge, viewWriteFeed, viewStore, viewMyPage], animated: false)
+    tabBarController.tabBar.layer.applyShadow(color: .gray, alpha: 0.3, shadowX: 0, shadowY: 0, blur: 12)
+    UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(red: 93/255, green: 195/255, blue: 144/255, alpha: 1)], for: .selected)
 
     viewHome.tabBarItem = UITabBarItem(title: "홈", image: UIImage(named: "home0"), tag: 0)
     viewChallenge.tabBarItem = UITabBarItem(title: "챌린지", image: UIImage(named: "challenge0"), tag: 1)
@@ -53,6 +55,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         tbItems[4].image = UIImage(named: "myPage0")?.withRenderingMode(.alwaysOriginal)
         tbItems[4].selectedImage = UIImage(named: "myPage1")?.withRenderingMode(.alwaysOriginal)
       }
+
       tbc.tabBar.backgroundColor = .white
     }
 

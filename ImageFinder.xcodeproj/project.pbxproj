@@ -21,6 +21,7 @@
 		618C231626F6250B001D9885 /* ImageDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C231526F6250B001D9885 /* ImageDetailViewController.swift */; };
 		618EF288273E9EB40047C732 /* ChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618EF287273E9EB40047C732 /* ChallengeViewController.swift */; };
 		618EF28A273EA2680047C732 /* ChallengePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618EF289273EA2680047C732 /* ChallengePresenter.swift */; };
+		618EF28D274125800047C732 /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618EF28C274125800047C732 /* TabBar.swift */; };
 		61BD4F012719B1D1004E6724 /* SearchImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BD4F002719B1D1004E6724 /* SearchImageService.swift */; };
 		61BD4F032719B6A3004E6724 /* Meta.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BD4F022719B6A3004E6724 /* Meta.swift */; };
 		B14ED33000E484D6488999A9 /* Pods_ImageFinder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FAE11991270C331A59607F5 /* Pods_ImageFinder.framework */; };
@@ -44,6 +45,7 @@
 		618C231526F6250B001D9885 /* ImageDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDetailViewController.swift; sourceTree = "<group>"; };
 		618EF287273E9EB40047C732 /* ChallengeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeViewController.swift; sourceTree = "<group>"; };
 		618EF289273EA2680047C732 /* ChallengePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengePresenter.swift; sourceTree = "<group>"; };
+		618EF28C274125800047C732 /* TabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
 		61BD4F002719B1D1004E6724 /* SearchImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchImageService.swift; sourceTree = "<group>"; };
 		61BD4F022719B6A3004E6724 /* Meta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Meta.swift; sourceTree = "<group>"; };
 		9FAE11991270C331A59607F5 /* Pods_ImageFinder.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ImageFinder.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -84,6 +86,7 @@
 		618C22EF26F1BFDE001D9885 /* ImageFinder */ = {
 			isa = PBXGroup;
 			children = (
+				618EF28B2741256C0047C732 /* Extension */,
 				61BD4EFB271453E2004E6724 /* Model */,
 				618C230626F1C0C7001D9885 /* Entity */,
 				618C230526F1C09D001D9885 /* Presenter */,
@@ -126,6 +129,14 @@
 				61BD4F022719B6A3004E6724 /* Meta.swift */,
 			);
 			path = Entity;
+			sourceTree = "<group>";
+		};
+		618EF28B2741256C0047C732 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				618EF28C274125800047C732 /* TabBar.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		61BD4EFB271453E2004E6724 /* Model */ = {
@@ -295,6 +306,7 @@
 				618EF28A273EA2680047C732 /* ChallengePresenter.swift in Sources */,
 				618C230B26F20F40001D9885 /* SearchImagePresenter.swift in Sources */,
 				618C22F326F1BFDE001D9885 /* SceneDelegate.swift in Sources */,
+				618EF28D274125800047C732 /* TabBar.swift in Sources */,
 				61BD4F032719B6A3004E6724 /* Meta.swift in Sources */,
 				618C231626F6250B001D9885 /* ImageDetailViewController.swift in Sources */,
 				618C230D26F210CF001D9885 /* ResultCollectionViewCell.swift in Sources */,
