@@ -13,22 +13,37 @@ class ChallengeViewController: UIViewController {
 
   var presenter: ChallengePresenter?
 
+  // MARK: - UI
+
+  let challengeTableView: UITableView = {
+    let tableView = UITableView()
+    tableView.translatesAutoresizingMaskIntoConstraints = false
+    tableView.backgroundColor = .red
+    return tableView
+  }()
+
+  // MARK: - Lifecycle
+  
     override func viewDidLoad() {
         super.viewDidLoad()
       view.backgroundColor = .yellow
-      view.addSubview(label)
-      label.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-      label.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+      setView()
+      layout()
     }
 
-  // MARK: - UI
+  // MARK: - Layout
 
-  let label: UILabel = {
-    let label = UILabel()
-    label.translatesAutoresizingMaskIntoConstraints = false
+  func setView() {
+    navigationItem.title = "챌린지"
+    view.addSubview(challengeTableView)
+  }
 
-    label.text = "test.."
-    return label
-  }()
-
+  func layout() {
+    NSLayoutConstraint.activate([
+      challengeTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+      challengeTableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
+      challengeTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+      challengeTableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor)
+    ])
+  }
 }
