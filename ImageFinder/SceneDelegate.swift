@@ -32,8 +32,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     tabBarController.setViewControllers([viewHome, navChallenge, viewWriteFeed, viewStore, viewMyPage], animated: false)
     tabBarController.tabBar.layer.applyShadow(color: .gray, alpha: 0.3, shadowX: 0, shadowY: 0, blur: 12)
-    UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.green50], for: .normal)
-    UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.gray70], for: .selected)
+    UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.green50 ?? .green], for: .normal)
+    UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.gray70 ?? .gray], for: .selected)
 
     viewHome.tabBarItem = UITabBarItem(title: "홈", image: UIImage(named: "ic_home_27_off"), tag: 0)
     viewChallenge.tabBarItem = UITabBarItem(title: "챌린지", image: UIImage(named: "ic_challenge_27_off"), tag: 1)
