@@ -48,6 +48,7 @@ class ChallengeTableViewCell: UITableViewCell {
     label.text = "첫 번째 참여자가 되어보세요!"
     label.textColor = .green50
     label.font = UIFont.systemFont(ofSize: 13)
+    label.lineHeight = 19
     return label
   }()
   
@@ -69,16 +70,24 @@ class ChallengeTableViewCell: UITableViewCell {
     label.translatesAutoresizingMaskIntoConstraints = false
     label.text = "#GOGO챌린지"
     label.font = UIFont.boldSystemFont(ofSize: 17)
+    label.lineHeight = 19
     return label
   }()
   
   let challengeContentLabel: UILabel = {
     let label = UILabel()
+//    let paragraphStyle = NSMutableParagraphStyle()
+//    paragraphStyle.minimumLineHeight = CGFloat(19)
+//    paragraphStyle.maximumLineHeight = CGFloat(19)
+//    label.attributedText = NSAttributedString(
+//      string: "쓰레기를 줄이자는 의미의 제로웨이스트 운동이 활발해 지고있다. 제로웨이스트에 대해 좀 더 알아보자!",
+//      attributes: [.paragraphStyle: paragraphStyle])
     label.translatesAutoresizingMaskIntoConstraints = false
     label.text = "쓰레기를 줄이자는 의미의 제로웨이스트 운동이 활발해 지고있다. 제로웨이스트에 대해 좀 더 알아보자!"
     label.lineBreakMode = .byWordWrapping
     label.numberOfLines = 2
     label.textColor = .gray50
+    label.lineHeight = 19
     label.font = UIFont.systemFont(ofSize: 13)
     return label
   }()
@@ -105,7 +114,6 @@ class ChallengeTableViewCell: UITableViewCell {
     challengeContentsView.addSubview(challengeTitleLabel)
     challengeContentsView.addSubview(challengeContentLabel)
     contentView.addSubview(challengeContentsView)
-    
   }
   
   func layout() {

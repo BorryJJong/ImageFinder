@@ -24,6 +24,7 @@
 		618EF28D274125800047C732 /* UITabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618EF28C274125800047C732 /* UITabBar.swift */; };
 		618EF29127413B020047C732 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618EF29027413B020047C732 /* UIColor.swift */; };
 		618EF293274238AD0047C732 /* ChallengeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618EF292274238AD0047C732 /* ChallengeTableViewCell.swift */; };
+		618EF295274C95230047C732 /* UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618EF294274C95230047C732 /* UILabel.swift */; };
 		61BD4F012719B1D1004E6724 /* SearchImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BD4F002719B1D1004E6724 /* SearchImageService.swift */; };
 		61BD4F032719B6A3004E6724 /* Meta.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BD4F022719B6A3004E6724 /* Meta.swift */; };
 		B14ED33000E484D6488999A9 /* Pods_ImageFinder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FAE11991270C331A59607F5 /* Pods_ImageFinder.framework */; };
@@ -50,6 +51,7 @@
 		618EF28C274125800047C732 /* UITabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITabBar.swift; sourceTree = "<group>"; };
 		618EF29027413B020047C732 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		618EF292274238AD0047C732 /* ChallengeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeTableViewCell.swift; sourceTree = "<group>"; };
+		618EF294274C95230047C732 /* UILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabel.swift; sourceTree = "<group>"; };
 		61BD4F002719B1D1004E6724 /* SearchImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchImageService.swift; sourceTree = "<group>"; };
 		61BD4F022719B6A3004E6724 /* Meta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Meta.swift; sourceTree = "<group>"; };
 		9FAE11991270C331A59607F5 /* Pods_ImageFinder.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ImageFinder.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -141,6 +143,7 @@
 			children = (
 				618EF28C274125800047C732 /* UITabBar.swift */,
 				618EF29027413B020047C732 /* UIColor.swift */,
+				618EF294274C95230047C732 /* UILabel.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -309,6 +312,7 @@
 				61BD4F012719B1D1004E6724 /* SearchImageService.swift in Sources */,
 				618C22F526F1BFDE001D9885 /* SearchImageViewController.swift in Sources */,
 				618C22F126F1BFDE001D9885 /* AppDelegate.swift in Sources */,
+				618EF295274C95230047C732 /* UILabel.swift in Sources */,
 				618C231426F21D29001D9885 /* Documents.swift in Sources */,
 				618EF28A273EA2680047C732 /* ChallengePresenter.swift in Sources */,
 				618C230B26F20F40001D9885 /* SearchImagePresenter.swift in Sources */,
