@@ -76,12 +76,6 @@ class ChallengeTableViewCell: UITableViewCell {
   
   let challengeContentLabel: UILabel = {
     let label = UILabel()
-//    let paragraphStyle = NSMutableParagraphStyle()
-//    paragraphStyle.minimumLineHeight = CGFloat(19)
-//    paragraphStyle.maximumLineHeight = CGFloat(19)
-//    label.attributedText = NSAttributedString(
-//      string: "쓰레기를 줄이자는 의미의 제로웨이스트 운동이 활발해 지고있다. 제로웨이스트에 대해 좀 더 알아보자!",
-//      attributes: [.paragraphStyle: paragraphStyle])
     label.translatesAutoresizingMaskIntoConstraints = false
     label.text = "쓰레기를 줄이자는 의미의 제로웨이스트 운동이 활발해 지고있다. 제로웨이스트에 대해 좀 더 알아보자!"
     label.lineBreakMode = .byWordWrapping
@@ -106,19 +100,22 @@ class ChallengeTableViewCell: UITableViewCell {
   
   func setView() {
     contentView.addSubview(thumnailView)
+    contentView.addSubview(seperateLine)
+    contentView.addSubview(challengeContentsView)
+
     thumnailView.addSubview(thumnailImageView)
     thumnailView.addSubview(participateView)
+
     participateView.addSubview(profileImages)
     participateView.addSubview(participateMentLabel)
-    contentView.addSubview(seperateLine)
+
     challengeContentsView.addSubview(challengeTitleLabel)
     challengeContentsView.addSubview(challengeContentLabel)
-    contentView.addSubview(challengeContentsView)
   }
   
   func layout() {
     NSLayoutConstraint.activate([
-      thumnailView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
+      thumnailView.topAnchor.constraint(equalTo: contentView.topAnchor),
       thumnailView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -20),
       thumnailView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -97),
       thumnailView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20),
