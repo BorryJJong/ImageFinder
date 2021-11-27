@@ -29,14 +29,14 @@ class ChallengeViewController: UIViewController {
     button.tintColor = .black
     return button
   }()
-
+  
   let testLabel: UILabel = {
     let label = UILabel()
     label.translatesAutoresizingMaskIntoConstraints = false
     label.text = "test"
     return label
   }()
-
+  
   // MARK: - Lifecycle
   
   override func viewDidLoad() {
@@ -47,7 +47,10 @@ class ChallengeViewController: UIViewController {
   }
   
   @objc private func buttonPressed(_ sender: Any) {
-    print("button clicked")
+    let challengeBottomSheetViewController = ChallengeBottomSheetViewController()
+
+    challengeBottomSheetViewController.modalPresentationStyle = .overFullScreen
+    self.present(challengeBottomSheetViewController, animated: false, completion: nil)
   }
   
   // MARK: - Layout
@@ -73,7 +76,7 @@ class ChallengeViewController: UIViewController {
 extension ChallengeViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
     let frame = tableView.frame
-
+    
     let sortButton: UIButton = {
       let button = UIButton(frame: CGRect(x: frame.size.width - 74, y: 10, width: 54, height: 30))
       button.addTarget(self, action: #selector(ChallengeViewController.buttonPressed(_:)), for: .touchUpInside)
@@ -93,32 +96,33 @@ extension ChallengeViewController: UITableViewDelegate {
       return label
     }()
     let newChallengeLabel: UILabel = {
-//      let seperatorImage = NSTextAttachment()
-//      seperatorImage.image = UIImage(named: "ic_table_sort")
-//
-//      let string = NSMutableAttributedString()
-//      string.append(NSAttributedString(attachment: seperatorImage))
-//      string.append(NSAttributedString(string: "신규 2개"))
-
+      //      구분점 이미지로 삽입할 경우
+      //      let seperatorImage = NSTextAttachment()
+      //      seperatorImage.image = UIImage(named: "ic_table_sort")
+      //
+      //      let string = NSMutableAttributedString()
+      //      string.append(NSAttributedString(attachment: seperatorImage))
+      //      string.append(NSAttributedString(string: "신규 2개"))
+      
       let label = UILabel(frame: CGRect(x: 75, y: 10, width: 65, height: 30))
       label.font = .systemFont(ofSize: 13)
       label.textColor = .gray90
       label.text = "신규 2개"
-//      label.attributedText = string
+      //      label.attributedText = string
       return label
     }()
-
+    
     let challengeTableHeaderView: UIView = {
       let view = UIView(frame: CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height))
+      view.backgroundColor = .white
       view.addSubview(sortButton)
       view.addSubview(totalLabel)
       view.addSubview(newChallengeLabel)
       return view
     }()
-
     return challengeTableHeaderView
   }
-
+  
   func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
     return 50
   }
